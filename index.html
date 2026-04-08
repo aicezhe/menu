@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ristorante Gallo d'Oro – Cucina Tipica Parmigiana</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@300;400&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════
+   GALLO D'ORO — style.css
+   ════════════════════════════════════════
+
+   СТРУКТУРА ФАЙЛА:
+   1. Переменные (цвета, шрифты)
+   2. Экран выбора языка
+   3. Навигация
+   4. Hero секция
+   5. Карточки (Produzione / Vini / Menu)
+   6. О нас
+   7. Помощник
+   8. Футер
+   9. Анимации
+   ════════════════════════════════════════ */
+
+
+/* ── 1. ПЕРЕМЕННЫЕ ── */
+/* Меняй здесь — изменится везде на сайте */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --gold: #C8A84B;          /* основной золотой */
+  --gold-light: #E2C97E;    /* светлее золото (hover) */
+  --dark: #0E0D0B;          /* основной фон */
+  --dark-2: #1A1814;        /* чуть светлее */
+  --dark-3: #252319;        /* ещё светлее */
+  --cream: #F5EDD8;         /* основной текст */
+  --cream-muted: #B8A98A;   /* приглушённый текст */
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark);
+  color: var(--cream);
+  font-family: 'Montserrat', sans-serif;  /* основной шрифт сайта */
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+
+/* ── 2. ЭКРАН ВЫБОРА ЯЗЫКА ── */
+
+#lang-screen {
+  position: fixed; inset: 0; z-index: 999;
+  background: var(--dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+#lang-screen.hidden { display: none; }
+.ls-swirls { display: none; }
+
+.ls-sub {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--cream-muted);
+  margin-bottom: 48px;
+  position: relative; z-index: 1; text-align: center;
+}
+.ls-divider {
+  width: 60px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin-bottom: 48px; position: relative; z-index: 1;
+}
+.lang-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; max-width: 620px; width: 90%;
+  position: relative; z-index: 1;
+}
+.lang-opt {
+  background: var(--flag-bg);
+  border: 1px solid rgba(200,168,75,0.15);
+  padding: 18px 16px; cursor: pointer; transition: all 0.25s;
+  display: flex; align-items: center; gap: 12px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.lang-opt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--flag-bg);
+  opacity: 0.55;
+  transition: opacity 0.25s;
+  z-index: 0;
+}
+.lang-opt:hover::before { opacity: 0.8; }
+.lang-opt:hover {
+  border-color: var(--hover-border, rgba(200,168,75,0.3));
+  transform: translateY(-2px);
+}
+.lang-flag, .lang-name, .lang-native, .lang-opt > div {
+  position: relative;
+  z-index: 1;
+}
+.lang-flag {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--cream-muted); width: 32px; text-align: center; flex-shrink: 0;
+}
+.lang-name { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--cream); }
+.lang-native { font-size: 10px; letter-spacing: 0.08em; color: var(--cream-muted); margin-top: 1px; }
+
+
+/* ── 3. НАВИГАЦИЯ ── */
+
+#main-site { display: none; }
+#main-site.visible { display: block; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 60px;
+  background: linear-gradient(to bottom, rgba(14,13,11,0.95), transparent);
+  transition: all 0.4s;
+}
+nav.scrolled {
+  background: rgba(14,13,11,0.97);
+  padding: 16px 60px;
+  border-bottom: 1px solid rgba(200,168,75,0.15);
+}
+.nav-logo { text-decoration: none; display: flex; flex-direction: column; line-height: 1; }
+.nav-logo .logo-script { font-family: 'Great Vibes', cursive; font-size: 15px; color: var(--cream-muted); line-height: 1.3; }
+.nav-logo .logo-main { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: var(--gold); letter-spacing: 0.02em; line-height: 1.1; }
+.nav-logo .logo-sub { font-size: 9px; letter-spacing: 0.22em; color: var(--cream-muted); font-family: 'Montserrat', sans-serif; font-weight: 300; text-transform: uppercase; margin-top: 3px; }
+.nav-links { display: flex; align-items: center; gap: 40px; list-style: none; }
+.nav-links a { color: var(--cream-muted); text-decoration: none; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; transition: color 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-lang-btn { background: transparent; border: 1px solid rgba(200,168,75,0.3); color: var(--gold); padding: 8px 16px; font-size: 10px; letter-spacing: 0.15em; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all 0.2s; }
+.nav-lang-btn:hover { background: var(--gold); color: var(--dark); }
+
+
+/* ── 4. HERO СЕКЦИЯ ── */
+
+.hero {
+  position: relative; height: 100vh;
+  display: flex; align-items: flex-end;
+  padding: 0 60px 100px; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(14,13,11,0.93) 45%, rgba(14,13,11,0.35) 100%),
+              linear-gradient(to top, rgba(14,13,11,0.85) 0%, transparent 55%);
+  z-index: 1;
+}
+.hero-pattern {
+  position: absolute; inset: 0; background-color: #1c1a14;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(200,168,75,0.025) 0px, rgba(200,168,75,0.025) 1px, transparent 1px, transparent 70px),
+    repeating-linear-gradient(-45deg, rgba(200,168,75,0.025) 0px, rgba(200,168,75,0.025) 1px, transparent 1px, transparent 70px);
+  z-index: 0;
+}
+.hero-rooster-bg {
+  position: absolute; right: 5%; top: 50%;
+  transform: translateY(-50%); z-index: 1; opacity: 0.06; width: min(500px, 45vw);
+}
+.hero-content { position: relative; z-index: 2; max-width: 680px; }
+
+/* Надпись над заголовком */
+.hero-eyebrow {
+  font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 28px;
+  display: flex; align-items: center; gap: 16px;
+  opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero-eyebrow::before { content:''; width: 40px; height: 1px; background: var(--gold); display: block; }
+
+/* Главный заголовок hero */
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(52px, 7vw, 96px);   /* min 52px, max 96px */
+  font-weight: 300;
+  line-height: 0.95;
+  color: var(--cream);
+  margin-bottom: 32px;
+  opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+}
+.hero-title em { font-style: italic; color: var(--gold); }
+
+/* Подзаголовок hero */
+.hero-sub {
+  font-size: 13px; letter-spacing: 0.06em; color: var(--cream-muted);
+  line-height: 1.9; max-width: 420px; margin-bottom: 48px;
+  opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+}
+.hero-actions { display: flex; gap: 24px; align-items: center; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+
+/* Кнопки */
+.btn-primary {
+  background: var(--gold);
+  color: var(--dark);
+  padding: 18px 52px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  display: inline-block;
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 24px rgba(200,168,75,0.25);
+}
+.btn-primary:hover {
+  background: transparent;
+  color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 0 36px rgba(200,168,75,0.4);
+}
+.btn-ghost {
+  color: var(--cream-muted); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; text-decoration: none;
+  display: flex; align-items: center; gap: 10px; transition: color 0.3s;
+}
+.btn-ghost::after { content:''; width: 32px; height: 1px; background: currentColor; transition: width 0.3s; }
+.btn-ghost:hover { color: var(--gold); }
+.btn-ghost:hover::after { width: 50px; }
+
+.hero-scroll {
+  position: absolute; bottom: 40px; right: 60px; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--cream-muted); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  opacity: 0; animation: fadeUp 1s 1.2s forwards;
+}
+.scroll-line {
+  width: 1px; height: 60px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+.gold-divider {
+  width: 100%; height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  opacity: 0.3;
+}
+
+
+/* ── ОБЩИЕ СЕКЦИИ ── */
+
+section { padding: 120px 60px; }
+
+.section-eyebrow {
+  font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-eyebrow::before { content:''; width: 30px; height: 1px; background: var(--gold); display: block; }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 4vw, 60px);
+  font-weight: 300; line-height: 1.1; color: var(--cream); margin-bottom: 24px;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+
+
+/* ── 5. КАРТОЧКИ ФИЛОСОФИИ ── */
+
+.features-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 2px; margin-top: 60px; max-width: 1200px; margin-left: auto; margin-right: auto;
+}
+.feature {
+  padding: 0; border: 1px solid rgba(200,168,75,0.1);
+  transition: border-color 0.3s; background: var(--dark-2);
+  position: relative; overflow: hidden; min-height: 320px;
+}
+.feature:hover { border-color: rgba(200,168,75,0.35); }
+.feature-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0.25; transition: opacity 0.4s;
+}
+.feature:hover .feature-bg { opacity: 0.38; }
+.feature::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(14,13,11,0.5) 0%, rgba(14,13,11,0.1) 50%, rgba(14,13,11,0.6) 100%);
+}
+.feature-content {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; justify-content: space-between;
+  height: 100%; min-height: 320px; padding: 36px;
+}
+
+/* Заголовок карточки — тонкий прямой по центру */
+.feature h3 {
+  font-family: 'Cormorant SC', serif;
+  font-size: clamp(20px, 2.8vw, 36px);
+  font-weight: 300;
+  font-style: normal;
+  color: var(--cream);
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-align: center;
+  align-self: center;
+  width: 100%;
+}
+
+/* Описание карточки — мелко справа снизу */
+.feature p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.9;
+  color: var(--cream-muted);
+  align-self: flex-end; text-align: right; max-width: 85%;
+}
+
+
+/* ── 6. О НАС ── */
+
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1200px; margin: 0 auto; }
+.about-text p { font-size: 14px; line-height: 2.1; color: var(--cream-muted); margin-bottom: 20px; }
+.about-visual { position: relative; }
+.about-frame {
+  width: 100%; aspect-ratio: 4/5; background: var(--dark-3);
+  border: 1px solid rgba(200,168,75,0.2);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.about-frame::before { content:''; position: absolute; inset: 16px; border: 1px solid rgba(200,168,75,0.08); }
+.about-frame-label {
+  font-family: 'Playfair Display', serif; font-size: 80px; font-weight: 300;
+  color: rgba(200,168,75,0.06); font-style: italic; user-select: none;
+}
+.about-stat {
+  position: absolute; bottom: -20px; right: -20px;
+  background: var(--gold); color: var(--dark); padding: 24px 28px; text-align: center;
+}
+.about-stat-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 300; line-height: 1; display: block; }
+.about-stat-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 4px; display: block; }
+
+
+/* ── 7. ПОМОЩНИК ── */
+
+.helper-section {
+  text-align: center; background: var(--dark-3);
+  border-top: 1px solid rgba(200,168,75,0.1);
+  border-bottom: 1px solid rgba(200,168,75,0.1);
+}
+.helper-section .section-eyebrow { justify-content: center; }
+.helper-section .section-eyebrow::before { display: none; }
+.helper-section .section-title { max-width: 600px; margin: 0 auto 16px; }
+.helper-section p { font-size: 13px; color: var(--cream-muted); line-height: 1.9; max-width: 480px; margin: 0 auto 40px; }
+
+
+/* ── 8. ФУТЕР ── */
+
+footer {
+  background: #080807; padding: 60px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; border-top: 1px solid rgba(200,168,75,0.1);
+}
+.footer-brand { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--gold); margin-bottom: 16px; }
+.footer-brand span { display: block; font-size: 11px; letter-spacing: 0.2em; color: var(--cream-muted); margin-top: 4px; font-family: 'Montserrat', sans-serif; font-weight: 300; }
+footer p { font-size: 12px; color: var(--cream-muted); line-height: 1.9; }
+.footer-col h4 { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+.footer-col a { display: block; font-size: 12px; color: var(--cream-muted); text-decoration: none; margin-bottom: 10px; transition: color 0.3s; }
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom {
+  background: #080807; padding: 20px 60px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  display: flex; justify-content: space-between;
+}
+.footer-bottom p { font-size: 11px; color: rgba(184,169,138,0.4); }
+
+
+/* ── 9. АНИМАЦИИ ── */
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+@keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Анимация появления карточек языков */
+.lang-opt { animation: fadeUp 0.5s both; }
+.lang-opt:nth-child(1){animation-delay:.05s}
+.lang-opt:nth-child(2){animation-delay:.1s}
+.lang-opt:nth-child(3){animation-delay:.15s}
+.lang-opt:nth-child(4){animation-delay:.2s}
+.lang-opt:nth-child(5){animation-delay:.25s}
+.lang-opt:nth-child(6){animation-delay:.3s}
+.lang-opt:nth-child(7){animation-delay:.35s}
+.lang-opt:nth-child(8){animation-delay:.4s}
+.lang-opt:nth-child(9){animation-delay:.45s}
+
+
+/* ── 10. МОБИЛЬНАЯ АДАПТАЦИЯ ── */
+
+/* Планшет (до 1024px) */
+@media (max-width: 1024px) {
+  nav { padding: 20px 32px; }
+  nav.scrolled { padding: 14px 32px; }
+  .hero { padding: 0 32px 80px; }
+  section { padding: 80px 32px; }
+  footer { padding: 48px 32px; }
+  .footer-bottom { padding: 16px 32px; }
+  .features-grid { grid-template-columns: 1fr; gap: 2px; }
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-visual { display: none; }
+}
+
+/* Телефон (до 768px) */
+@media (max-width: 768px) {
+  /* Навигация */
+  nav { padding: 16px 20px; }
+  nav.scrolled { padding: 12px 20px; }
+  .nav-links { gap: 20px; }
+  .nav-links li:nth-child(1),
+  .nav-links li:nth-child(2) { display: none; }
+
+  /* Hero */
+  .hero { padding: 0 20px 60px; }
+  .hero-title { font-size: clamp(38px, 10vw, 60px); }
+  .hero-sub { font-size: 12px; max-width: 100%; }
+  .hero-actions { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .hero-rooster-bg { opacity: 0.03; width: 70vw; }
+  .hero-scroll { right: 20px; }
+
+  /* Секции */
+  section { padding: 60px 20px; }
+
+  /* Карточки */
+  .features-grid { grid-template-columns: 1fr; }
+  .feature-content { min-height: 260px; padding: 24px; }
+  .feature h3 { font-size: clamp(28px, 8vw, 40px); }
+
+  /* О нас */
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .about-visual { display: none; }
+
+  /* Помощник */
+  .helper-section .section-title { font-size: clamp(28px, 8vw, 44px); }
+
+  /* Футер */
+  footer { grid-template-columns: 1fr; gap: 32px; padding: 40px 20px; }
+  .footer-bottom { padding: 16px 20px; flex-direction: column; gap: 8px; text-align: center; }
+
+/* Экран языков — 3 колонки на мобиле */
+  .lang-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px;
+    width: 98%;
+    max-width: 100%;
+  }
+  .lang-opt { padding: 12px 8px; min-height: 64px; gap: 6px; flex-direction: column; align-items: flex-start; }
+  .lang-flag { font-size: 10px; width: auto; }
+  .lang-name { font-size: 13px; }
+  .lang-native { font-size: 9px; }
+  .ls-sub { font-size: 9px; letter-spacing: 0.3em; margin-bottom: 24px; padding: 0 20px; }
+}
+
+/* Маленький телефон (до 400px) */
+@media (max-width: 400px) {
+  .lang-grid { grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .lang-opt { padding: 10px 6px; min-height: 58px; }
+  .lang-name { font-size: 12px; }
+  .hero-title { font-size: 36px; }
+  nav { padding: 14px 16px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══ LANGUAGE SCREEN ══ -->
+<div id="lang-screen">
+  <img src="https://www.gallodororistorante.it/wp-content/uploads/2025/02/logo-ristorante-gallo-d-oro-parma.png" style="height:90px;position:relative;z-index:1;margin-bottom:16px;" alt="Gallo d'Oro">
+  <div class="ls-sub">Scegli la tua lingua · Choose your language</div>
+  <div class="ls-divider"></div>
+  <div class="lang-grid">
+    <button class="lang-opt" onclick="chooseLang('it')" style="--flag-bg:linear-gradient(to right,rgba(0,146,70,0.3),rgba(255,255,255,0.1),rgba(206,43,55,0.3));--hover-border:rgba(0,146,70,0.5)"><span class="lang-flag">IT</span><div><div class="lang-name">Italiano</div><div class="lang-native">Italian</div></button>
+    <button class="lang-opt" onclick="chooseLang('en')" style="--flag-bg:linear-gradient(135deg,rgba(1,33,105,0.4),rgba(200,0,0,0.2),rgba(1,33,105,0.35));--hover-border:rgba(1,33,105,0.6)"><span class="lang-flag">EN</span><div><div class="lang-name">English</div><div class="lang-native">Inglese</div></button>
+    <button class="lang-opt" onclick="chooseLang('es')" style="--flag-bg:linear-gradient(to bottom,rgba(170,21,27,0.3),rgba(241,191,0,0.3),rgba(170,21,27,0.3));--hover-border:rgba(241,191,0,0.6)"><span class="lang-flag">ES</span><div><div class="lang-name">Español</div><div class="lang-native">Spagnolo</div></button>
+    <button class="lang-opt" onclick="chooseLang('fr')" style="--flag-bg:linear-gradient(to right,rgba(0,35,149,0.3),rgba(255,255,255,0.08),rgba(237,41,57,0.3));--hover-border:rgba(0,35,149,0.5)"><span class="lang-flag">FR</span><div><div class="lang-name">Français</div><div class="lang-native">Francese</div></button>
+    <button class="lang-opt" onclick="chooseLang('de')" style="--flag-bg:linear-gradient(to bottom,rgba(0,0,0,0.45),rgba(221,0,0,0.3),rgba(255,206,0,0.3));--hover-border:rgba(221,0,0,0.5)"><span class="lang-flag">DE</span><div><div class="lang-name">Deutsch</div><div class="lang-native">Tedesco</div></button>
+    <button class="lang-opt" onclick="chooseLang('ru')" style="--flag-bg:linear-gradient(to bottom,rgba(255,255,255,0.12),rgba(0,57,166,0.3),rgba(213,43,30,0.3));--hover-border:rgba(0,57,166,0.5)"><span class="lang-flag">RU</span><div><div class="lang-name">Русский</div><div class="lang-native">Russo</div></button>
+    <button class="lang-opt" onclick="chooseLang('uk')" style="--flag-bg:linear-gradient(to bottom,rgba(0,91,187,0.35),rgba(255,213,0,0.35));--hover-border:rgba(255,213,0,0.6)"><span class="lang-flag">UA</span><div><div class="lang-name">Українська</div><div class="lang-native">Ucraino</div></button>
+    <button class="lang-opt" onclick="chooseLang('zh')" style="--flag-bg:rgba(222,41,16,0.25);--hover-border:rgba(222,41,16,0.6)"><span class="lang-flag">CN</span><div><div class="lang-name">中文</div><div class="lang-native">Cinese</div></button>
+    <button class="lang-opt" onclick="chooseLang('ja')" style="--flag-bg:radial-gradient(circle at center,rgba(188,0,45,0.3) 30%,rgba(255,255,255,0.06) 70%);--hover-border:rgba(188,0,45,0.5)"><span class="lang-flag">JP</span><div><div class="lang-name">日本語</div><div class="lang-native">Giapponese</div></button>
+  </div>
+</div>
+
+<!-- ══ MAIN SITE ══ -->
+<div id="main-site">
+
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <img src="https://www.gallodororistorante.it/wp-content/uploads/2025/02/logo-ristorante-gallo-d-oro-parma.png" style="height:48px;" alt="Ristorante Gallo d'Oro">
+  </a>
+  <ul class="nav-links">
+    <li><a href="/menu" data-i18n="nav-menu">Menu</a></li>
+    <li><a href="#helper" data-i18n="nav-helper">Aiutami</a></li>
+    <li><a href="#about" data-i18n="nav-about">Chi siamo</a></li>
+    <li><button class="nav-lang-btn" onclick="resetLang()" data-i18n="nav-lang">🌐 Lingua</button></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-bg"></div>
+  <img class="hero-rooster-bg" src="https://www.gallodororistorante.it/wp-content/uploads/2025/02/logo-ristorante-gallo-d-oro-parma.png" alt="">
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-i18n="hero-eyebrow">Cucina tipica parmigiana</div>
+    <h1 class="hero-title">Ristorante<br><em>Gallo d'Oro</em></h1>
+    <p class="hero-sub" data-i18n="hero-sub">Nel cuore di Parma, dove la tradizione incontra il gusto autentico.</p>
+    <div class="hero-actions">
+      <a href="/menu" class="btn-primary" data-i18n="hero-cta1">Scopri il menu</a>
+      <a href="#helper" class="btn-ghost" data-i18n="hero-cta2">Aiutami a scegliere</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span data-i18n="scroll">Scorri</span></div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- FEATURES -->
+<section>
+  <div style="text-align:center;margin-bottom:60px">
+    <div class="section-eyebrow reveal" style="justify-content:center;display:flex"><span data-i18n="features-eyebrow">La nostra filosofia</span></div>
+  </div>
+  <div class="features-grid">
+    <div class="feature reveal">
+      <div class="feature-bg" style="background-image:url('https://www.gallodororistorante.it/wp-content/uploads/2025/07/tortelli-di-erbetta-parma-ristorante-gallo-home.webp');background-position:center 15%"></div>
+      <div class="feature-content">
+        <h3 data-i18n="f1-title">Produzione artigianale</h3>
+        <p data-i18n="f1-text">Quasi tutti i piatti del nostro menu sono realizzati a mano dai nostri chef.</p>
+      </div>
+    </div>
+    <div class="feature reveal" style="transition-delay:.15s">
+      <div class="feature-bg" style="background-image:url('https://www.gallodororistorante.it/wp-content/uploads/2025/07/Gallo_doro_focus-dettagli_62-scaled.jpg');background-position:center 75%"></div>
+      <div class="feature-content">
+        <h3 data-i18n="f3-title">Carta dei vini</h3>
+        <p data-i18n="f3-text">Una selezione curata di vini locali e nazionali.</p>
+      </div>
+    </div>
+    <div class="feature reveal" style="transition-delay:.3s">
+      <div class="feature-bg" style="background-image:url('https://www.gallodororistorante.it/wp-content/uploads/2025/08/torta-fritta-2.jpg');background-position:center 55%"></div>
+      <div class="feature-content">
+        <h3 data-i18n="f2-title">Due anime nel menu</h3>
+        <p data-i18n="f2-text">Tradizionale e Gourmet. La tradizione permanente o l'esperimento stagionale del nostro chef.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-eyebrow reveal" data-i18n="about-eyebrow">Chi siamo</div>
+      <h2 class="section-title reveal"><span data-i18n="about-title">Una storia di</span> <em data-i18n="about-title-em">passione</em></h2>
+      <div class="reveal">
+        <p data-i18n="about-p1">Situato nel cuore storico di Parma, il Ristorante Gallo d'Oro è da decenni un punto di riferimento per chi cerca l'autentica cucina parmigiana.</p>
+        <p data-i18n="about-p2" style="opacity:0.5;font-style:italic">— — — — — — [inserisci qui la storia del ristorante]</p>
+        <a href="/about" class="btn-ghost" style="margin-top:24px;display:inline-flex" data-i18n="about-link">Scopri la nostra storia</a>
+      </div>
+    </div>
+    <div class="about-visual reveal">
+      <div class="about-frame"><span class="about-frame-label">1962</span></div>
+      <div class="about-stat"><span class="about-stat-num">60+</span><span class="about-stat-label" data-i18n="about-stat">Anni di storia</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-divider"></div>
+
+<!-- HELPER -->
+<section class="helper-section" id="helper">
+  <div class="section-eyebrow reveal" style="justify-content:center;display:flex" data-i18n="helper-eyebrow">Il tuo assistente</div>
+  <h2 class="section-title reveal"><span data-i18n="helper-title">Non sai cosa</span><br><em data-i18n="helper-title-em">ordinare?</em></h2>
+  <p class="reveal" data-i18n="helper-sub">Rispondi a poche domande e ti suggeriremo il piatto e il vino perfetti.</p>
+  <a href="/helper" class="btn-primary reveal" data-i18n="helper-cta">Inizia il test →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">Gallo d'Oro<span>Ristorante · Parma</span></div>
+    <p data-i18n="footer-desc">Cucina tipica parmigiana nel cuore della città.</p>
+  </div>
+  <div class="footer-col">
+    <h4 data-i18n="footer-pages">Pagine</h4>
+    <a href="/" data-i18n="nav-home">Home</a>
+    <a href="/menu" data-i18n="nav-menu">Menu</a>
+    <a href="/helper" data-i18n="nav-helper">Aiutami</a>
+    <a href="/about" data-i18n="nav-about">Chi siamo</a>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <p>© 2024 Ristorante Gallo d'Oro · Parma</p>
+  <p data-i18n="footer-tagline">Cucina tipica parmigiana</p>
+</div>
+
+</div>
+
+<script>
+const T = {
+  it:{'nav-menu':'Menu','nav-helper':'Aiutami','nav-about':'Chi siamo','nav-lang':'🌐 Lingua','nav-home':'Home','hero-eyebrow':'Cucina tipica parmigiana','hero-sub':'Nel cuore di Parma, dove la tradizione incontra il gusto autentico. Ogni piatto racconta una storia di territorio, passione e ingredienti selezionati.','hero-cta1':'Scopri il menu','hero-cta2':'Aiutami a scegliere','scroll':'Scorri','features-eyebrow':'La nostra filosofia','f1-title':'Produzione artigianale','f1-text':'Quasi tutti i piatti del nostro menu sono realizzati a mano dai nostri chef. Questo conferisce ad ogni piatto unicità, una texture speciale e un sapore inimitabile.','f2-title':'Due anime nel menu','f2-text':'Il menu è diviso in Tradizionale e Gourmet. Potete scegliere: assaporare la tradizione parmigiana nella sua forma più autentica, oppure sperimentare il menu Gourmet — capolavori unici del nostro chef, che cambiano ogni stagione.','f3-title':'Carta dei vini','f3-text':'Una selezione curata di vini locali e nazionali, perfetti per accompagnare ogni piatto della nostra cucina.','about-eyebrow':'Chi siamo','about-title':'Una storia di','about-title-em':'passione','about-p1':'Situato nel cuore storico di Parma, il Ristorante Gallo d\'Oro è da decenni un punto di riferimento per chi cerca l\'autentica cucina parmigiana.','about-p2':'— — — — — — [inserisci qui la storia del ristorante]','about-link':'Scopri la nostra storia','about-stat':'Anni di storia','helper-eyebrow':'Il tuo assistente','helper-title':'Non sai cosa','helper-title-em':'ordinare?','helper-sub':'Rispondi a poche domande e ti suggeriremo il piatto e il vino perfetti per te questa sera.','helper-cta':'Inizia il test →','footer-desc':'Cucina tipica parmigiana nel cuore della città.','footer-pages':'Pagine','footer-tagline':'Cucina tipica parmigiana'},
+  en:{'nav-menu':'Menu','nav-helper':'Help me choose','nav-about':'About us','nav-lang':'🌐 Language','nav-home':'Home','hero-eyebrow':'Traditional cuisine from Parma','hero-sub':'In the heart of Parma, where tradition meets authentic taste. Every dish tells a story of territory, passion and carefully selected ingredients.','hero-cta1':'Explore the menu','hero-cta2':'Help me choose','scroll':'Scroll','features-eyebrow':'Our philosophy','f1-title':'Handmade production','f1-text':'Almost all dishes on our menu are handmade by our chefs. This gives each dish its uniqueness, a special texture and an irreplaceable flavour.','f2-title':'Two souls in the menu','f2-text':'Our menu is divided into Traditional and Gourmet. You can choose: savour the traditions of Parma at their finest, or experiment with the Gourmet menu — unique masterpieces from our head chef that change every season.','f3-title':'Wine list','f3-text':'A curated selection of local and national wines, perfect to accompany every dish from our kitchen.','about-eyebrow':'About us','about-title':'A story of','about-title-em':'passion','about-p1':'Located in the historic heart of Parma, Ristorante Gallo d\'Oro has for decades been a reference point for those seeking authentic Parma cuisine.','about-p2':'— — — — — — [insert restaurant history here]','about-link':'Discover our story','about-stat':'Years of history','helper-eyebrow':'Your personal assistant','helper-title':'Not sure what','helper-title-em':'to order?','helper-sub':'Answer a few questions and we\'ll suggest the perfect dish and wine for you tonight.','helper-cta':'Start the quiz →','footer-desc':'Authentic Parma cuisine in the heart of the city.','footer-pages':'Pages','footer-tagline':'Traditional Parma cuisine'},
+  es:{'nav-menu':'Menú','nav-helper':'Ayúdame','nav-about':'Quiénes somos','nav-lang':'🌐 Idioma','nav-home':'Inicio','hero-eyebrow':'Cocina típica parmesana','hero-sub':'En el corazón de Parma, donde la tradición se encuentra con el sabor auténtico.','hero-cta1':'Ver el menú','hero-cta2':'Ayúdame a elegir','scroll':'Deslizar','features-eyebrow':'Nuestra filosofía','f1-title':'Producción artesanal','f1-text':'Casi todos los platos de nuestro menú son elaborados a mano por nuestros chefs.','f2-title':'Dos almas en el menú','f2-text':'Nuestro menú está dividido en Tradicional y Gourmet.','f3-title':'Carta de vinos','f3-text':'Una selección cuidada de vinos locales y nacionales.','about-eyebrow':'Quiénes somos','about-title':'Una historia de','about-title-em':'pasión','about-p1':'Ubicado en el corazón histórico de Parma, el Ristorante Gallo d\'Oro lleva décadas siendo un punto de referencia.','about-p2':'— — — — — — [inserta aquí la historia del restaurante]','about-link':'Descubre nuestra historia','about-stat':'Años de historia','helper-eyebrow':'Tu asistente','helper-title':'¿No sabes qué','helper-title-em':'pedir?','helper-sub':'Responde unas pocas preguntas y te sugeriremos el plato y el vino perfectos.','helper-cta':'Empezar el test →','footer-desc':'Cocina típica parmesana en el corazón de la ciudad.','footer-pages':'Páginas','footer-tagline':'Cocina típica parmesana'},
+  fr:{'nav-menu':'Menu','nav-helper':'Aidez-moi','nav-about':'Qui sommes-nous','nav-lang':'🌐 Langue','nav-home':'Accueil','hero-eyebrow':'Cuisine typique de Parme','hero-sub':'Au cœur de Parme, là où la tradition rencontre le goût authentique.','hero-cta1':'Découvrir le menu','hero-cta2':'Aidez-moi à choisir','scroll':'Défiler','features-eyebrow':'Notre philosophie','f1-title':'Production artisanale','f1-text':'Presque tous les plats de notre menu sont faits à la main par nos chefs.','f2-title':'Deux âmes dans le menu','f2-text':'Notre menu est divisé en Traditionnel et Gourmet.','f3-title':'Carte des vins','f3-text':'Une sélection soignée de vins locaux et nationaux.','about-eyebrow':'Qui sommes-nous','about-title':'Une histoire de','about-title-em':'passion','about-p1':'Situé au cœur historique de Parme, le Ristorante Gallo d\'Oro est depuis des décennies un lieu de référence.','about-p2':'— — — — — — [insérez ici l\'histoire du restaurant]','about-link':'Découvrez notre histoire','about-stat':'Ans d\'histoire','helper-eyebrow':'Votre assistant','helper-title':'Vous ne savez pas quoi','helper-title-em':'commander?','helper-sub':'Répondez à quelques questions et nous vous suggérerons le plat et le vin parfaits.','helper-cta':'Commencer le test →','footer-desc':'Cuisine typique de Parme au cœur de la ville.','footer-pages':'Pages','footer-tagline':'Cuisine typique de Parme'},
+  de:{'nav-menu':'Speisekarte','nav-helper':'Hilf mir','nav-about':'Über uns','nav-lang':'🌐 Sprache','nav-home':'Startseite','hero-eyebrow':'Typische Küche aus Parma','hero-sub':'Im Herzen von Parma, wo Tradition auf authentischen Geschmack trifft.','hero-cta1':'Speisekarte entdecken','hero-cta2':'Hilf mir wählen','scroll':'Scrollen','features-eyebrow':'Unsere Philosophie','f1-title':'Handgefertigte Produktion','f1-text':'Fast alle Gerichte auf unserer Speisekarte werden von unseren Köchen handgefertigt.','f2-title':'Zwei Seelen auf der Karte','f2-text':'Unsere Karte ist in Traditionell und Gourmet unterteilt.','f3-title':'Weinkarte','f3-text':'Eine sorgfältige Auswahl lokaler und nationaler Weine.','about-eyebrow':'Über uns','about-title':'Eine Geschichte der','about-title-em':'Leidenschaft','about-p1':'Das Ristorante Gallo d\'Oro liegt im historischen Herzen von Parma und ist seit Jahrzehnten eine Referenz.','about-p2':'— — — — — — [Geschichte des Restaurants hier einfügen]','about-link':'Unsere Geschichte entdecken','about-stat':'Jahre Geschichte','helper-eyebrow':'Ihr Assistent','helper-title':'Wissen Sie nicht was','helper-title-em':'Sie bestellen sollen?','helper-sub':'Beantworten Sie ein paar Fragen und wir empfehlen Ihnen das perfekte Gericht.','helper-cta':'Test starten →','footer-desc':'Typische Küche aus Parma im Herzen der Stadt.','footer-pages':'Seiten','footer-tagline':'Typische Küche aus Parma'},
+  ru:{'nav-menu':'Меню','nav-helper':'Помоги выбрать','nav-about':'О нас','nav-lang':'🌐 Язык','nav-home':'Главная','hero-eyebrow':'Традиционная кухня Пармы','hero-sub':'В самом сердце Пармы, где традиции встречаются с подлинным вкусом. Каждое блюдо — история территории, страсти и тщательно подобранных ингредиентов.','hero-cta1':'Смотреть меню','hero-cta2':'Помоги мне выбрать','scroll':'Прокрутить','features-eyebrow':'Наша философия','f1-title':'Ручное производство','f1-text':'Почти все блюда нашего меню приготовлены вручную нашими поварами. Это придаёт каждому блюду уникальность, особую текстуру и незаменимый вкус.','f2-title':'Два духа в меню','f2-text':'Наше меню разделено на Традиционное и Гурме. Вы можете выбрать: вкусить традиции Пармы в наилучшем виде или устроить эксперимент с меню Гурме, которое меняется каждый сезон.','f3-title':'Карта вин','f3-text':'Тщательно подобранная коллекция местных и национальных вин.','about-eyebrow':'О нас','about-title':'История','about-title-em':'страсти','about-p1':'Расположенный в историческом центре Пармы, Ristorante Gallo d\'Oro на протяжении десятилетий является точкой отсчёта для тех, кто ищет подлинную кухню Пармы.','about-p2':'— — — — — — [вставьте здесь историю ресторана]','about-link':'Узнать нашу историю','about-stat':'Лет истории','helper-eyebrow':'Ваш личный помощник','helper-title':'Не знаете, что','helper-title-em':'заказать?','helper-sub':'Ответьте на несколько вопросов, и мы предложим вам идеальное блюдо и вино на этот вечер.','helper-cta':'Начать тест →','footer-desc':'Традиционная кухня Пармы в центре города.','footer-pages':'Страницы','footer-tagline':'Традиционная кухня Пармы'},
+  uk:{'nav-menu':'Меню','nav-helper':'Допоможи','nav-about':'Про нас','nav-lang':'🌐 Мова','nav-home':'Головна','hero-eyebrow':'Традиційна кухня Парми','hero-sub':'У серці Парми, де традиції зустрічаються зі справжнім смаком.','hero-cta1':'Переглянути меню','hero-cta2':'Допоможи обрати','scroll':'Прокрутити','features-eyebrow':'Наша філософія','f1-title':'Ручне виробництво','f1-text':'Майже всі страви нашого меню приготовлені вручну нашими кухарями.','f2-title':'Два духи в меню','f2-text':'Наше меню поділено на Традиційне та Гурме.','f3-title':'Карта вин','f3-text':'Ретельно підібрана колекція місцевих та національних вин.','about-eyebrow':'Про нас','about-title':'Історія','about-title-em':'пристрасті','about-p1':'Розташований у історичному центрі Парми, Ristorante Gallo d\'Oro десятиліттями є орієнтиром.','about-p2':'— — — — — — [вставте тут історію ресторану]','about-link':'Дізнатися нашу історію','about-stat':'Років історії','helper-eyebrow':'Ваш помічник','helper-title':'Не знаєте, що','helper-title-em':'замовити?','helper-sub':'Дайте відповідь на кілька питань, і ми підкажемо ідеальну страву та вино.','helper-cta':'Почати тест →','footer-desc':'Традиційна кухня Парми в центрі міста.','footer-pages':'Сторінки','footer-tagline':'Традиційна кухня Парми'},
+  zh:{'nav-menu':'菜单','nav-helper':'帮我选择','nav-about':'关于我们','nav-lang':'🌐 语言','nav-home':'首页','hero-eyebrow':'帕尔马传统美食','hero-sub':'在帕尔马的心脏地带，传统与正宗口味相遇。','hero-cta1':'查看菜单','hero-cta2':'帮我选择','scroll':'滚动','features-eyebrow':'我们的理念','f1-title':'手工制作','f1-text':'我们菜单上几乎所有菜肴都由厨师手工制作。','f2-title':'菜单的两种风格','f2-text':'菜单分为传统和美食两种。','f3-title':'酒单','f3-text':'精心挑选的本地和全国葡萄酒。','about-eyebrow':'关于我们','about-title':'一段','about-title-em':'热情的故事','about-p1':'Ristorante Gallo d\'Oro位于帕尔马历史中心，数十年来一直是参考地标。','about-p2':'— — — — — — [在此插入餐厅历史]','about-link':'了解我们的故事','about-stat':'年历史','helper-eyebrow':'您的助手','helper-title':'不知道','helper-title-em':'点什么?','helper-sub':'回答几个问题，我们将为您推荐今晚最完美的菜肴和葡萄酒。','helper-cta':'开始测试 →','footer-desc':'帕尔马传统美食，位于城市中心。','footer-pages':'页面','footer-tagline':'帕尔马传统美食'},
+  ja:{'nav-menu':'メニュー','nav-helper':'選ぶのを手伝って','nav-about':'私たちについて','nav-lang':'🌐 言語','nav-home':'ホーム','hero-eyebrow':'パルマの伝統料理','hero-sub':'パルマの中心部で、伝統と本物の味が出会う場所。','hero-cta1':'メニューを見る','hero-cta2':'選ぶのを手伝って','scroll':'スクロール','features-eyebrow':'私たちの哲学','f1-title':'手作り製造','f1-text':'メニューのほぼすべての料理はシェフが手作りしています。','f2-title':'メニューの二つの魂','f2-text':'メニューはトラディショナルとグルメに分かれています。','f3-title':'ワインリスト','f3-text':'料理に合わせた地元および全国のワインを厳選しています。','about-eyebrow':'私たちについて','about-title':'情熱の','about-title-em':'物語','about-p1':'パルマの歴史的中心部に位置するRistorante Gallo d\'Oroは、数十年にわたり愛されています。','about-p2':'— — — — — — [レストランの歴史をここに入力]','about-link':'私たちの物語を知る','about-stat':'年の歴史','helper-eyebrow':'あなたのアシスタント','helper-title':'何を注文すれば','helper-title-em':'いいか迷っていますか?','helper-sub':'いくつかの質問に答えると、今夜にぴったりの料理とワインをご提案します。','helper-cta':'テストを始める →','footer-desc':'パルマの伝統料理、街の中心で。','footer-pages':'ページ','footer-tagline':'パルマの伝統料理'},
+};
+
+function chooseLang(lang) {
+  sessionStorage.setItem('lang', lang);
+  document.getElementById('lang-screen').classList.add('hidden');
+  document.getElementById('main-site').classList.add('visible');
+  applyTranslations(lang);
+  initReveal();
+}
+function resetLang() {
+  document.getElementById('lang-screen').classList.remove('hidden');
+  document.getElementById('main-site').classList.remove('visible');
+}
+function applyTranslations(lang) {
+  const t = T[lang] || T.it;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (t[k] !== undefined) el.textContent = t[k];
+  });
+}
+function initReveal() {
+  const obs = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  }), {threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+}
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// При возврате на главную — показать сайт сразу если язык уже выбран
+const savedLang = sessionStorage.getItem('lang');
+if (savedLang) {
+  document.getElementById('lang-screen').classList.add('hidden');
+  document.getElementById('main-site').classList.add('visible');
+  applyTranslations(savedLang);
+  initReveal();
+}
+</script>
+</body>
+</html>

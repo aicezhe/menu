@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aiutami a scegliere – Gallo d'Oro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#C8A84B;--gold-light:#E2C97E;--dark:#0E0D0B;--dark-2:#1A1814;--dark-3:#252319;--cream:#F5EDD8;--cream-muted:#B8A98A}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--cream);font-family:'Montserrat',sans-serif;font-weight:300;min-height:100vh}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(14,13,11,0.97);border-bottom:1px solid rgba(200,168,75,0.15)}
+.nav-logo img{height:40px}
+.nav-logo-text{color:var(--gold);text-decoration:none;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;border:1px solid rgba(200,168,75,0.4);padding:8px 16px;transition:all 0.2s;font-family:'Montserrat',sans-serif}
+.nav-logo-text:hover{background:var(--gold);color:var(--dark)}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{color:var(--cream-muted);text-decoration:none;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;transition:color 0.3s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.nav-links li:first-child a{color:var(--gold);border:1px solid rgba(200,168,75,0.4);padding:8px 16px;letter-spacing:0.15em;transition:all 0.2s}
+.nav-links li:first-child a:hover{background:var(--gold);color:var(--dark)}
+
+/* CONTAINER */
+.main{padding:100px 60px 120px;max-width:860px;margin:0 auto}
+
+/* HEADER */
+.page-header{text-align:center;margin-bottom:52px}
+.page-eyebrow{font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,56px);font-weight:300;font-style:italic;color:var(--cream);line-height:1.1;margin-bottom:12px}
+.page-sub{font-size:12px;color:var(--cream-muted);line-height:1.9;max-width:480px;margin:0 auto}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:40px}
+.progress-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream-muted);margin-bottom:10px;text-align:center}
+.progress-bar{width:100%;height:2px;background:rgba(200,168,75,0.1);border-radius:1px}
+.progress-fill{height:100%;background:var(--gold);border-radius:1px;transition:width 0.5s ease}
+
+/* QUESTION */
+.question-card{background:var(--dark-2);border:1px solid rgba(200,168,75,0.12);padding:36px;margin-bottom:24px;animation:fadeUp 0.35s ease}
+.q-step{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3vw,30px);font-weight:300;color:var(--cream);margin-bottom:6px;line-height:1.3}
+.q-hint{font-size:11px;color:var(--cream-muted);font-style:italic;margin-bottom:24px}
+.options{display:flex;flex-wrap:wrap;gap:10px}
+.opt{background:transparent;border:1px solid rgba(200,168,75,0.2);color:var(--cream-muted);padding:11px 20px;font-size:11px;letter-spacing:0.08em;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.2s;-webkit-appearance:none;touch-action:manipulation;border-radius:0}
+.opt:hover{border-color:var(--gold);color:var(--cream)}
+.opt.sel{background:rgba(200,168,75,0.1);border-color:var(--gold);color:var(--gold)}
+.opt.sel::before{content:'✓ '}
+
+/* NAV BUTTONS */
+.bot-nav{display:flex;justify-content:space-between;gap:16px;margin-top:24px}
+.btn-back{background:transparent;border:1px solid rgba(200,168,75,0.2);color:var(--cream-muted);padding:13px 28px;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.2s;-webkit-appearance:none;touch-action:manipulation}
+.btn-back:hover{border-color:var(--gold);color:var(--gold)}
+.btn-next{background:var(--gold);color:var(--dark);padding:13px 36px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:500;border:2px solid var(--gold);transition:all 0.2s;-webkit-appearance:none;touch-action:manipulation}
+.btn-next:hover{background:transparent;color:var(--gold)}
+.btn-next:disabled{opacity:0.3;cursor:not-allowed}
+
+/* LOADING */
+.loading{text-align:center;padding:60px;color:var(--cream-muted);font-size:13px;font-style:italic}
+.spinner{width:32px;height:32px;border:2px solid rgba(200,168,75,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px}
+
+/* DISHES SECTION */
+.dishes-wrap{animation:fadeUp 0.4s ease}
+.dishes-header{text-align:center;margin-bottom:40px}
+.dishes-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:300;font-style:italic;color:var(--cream);margin-bottom:8px}
+.dishes-sub{font-size:11px;color:var(--cream-muted);letter-spacing:0.08em}
+
+.category-block{margin-bottom:40px}
+.cat-label{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.cat-label::after{content:'';flex:1;height:1px;background:rgba(200,168,75,0.15)}
+
+.dish-card{background:var(--dark-2);border:1px solid rgba(200,168,75,0.08);padding:20px 24px;margin-bottom:8px;display:flex;align-items:flex-start;gap:16px;cursor:pointer;transition:border-color 0.2s,background 0.2s;touch-action:manipulation}
+.dish-card:hover{border-color:rgba(200,168,75,0.25)}
+.dish-card.chosen{border-color:var(--gold);background:rgba(200,168,75,0.06)}
+.dish-check{width:22px;height:22px;border:1px solid rgba(200,168,75,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--gold);margin-top:2px;transition:all 0.2s}
+.dish-card.chosen .dish-check{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+.dish-info{flex:1}
+.dish-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--cream);margin-bottom:3px}
+.dish-desc{font-size:11px;color:var(--cream-muted);line-height:1.6;margin-bottom:4px}
+.dish-warn{font-size:10px;color:var(--gold-light);background:rgba(226,201,126,0.07);padding:5px 10px;border-left:2px solid var(--gold-light);margin-top:6px}
+.dish-price{font-size:15px;color:var(--gold);white-space:nowrap;padding-top:2px}
+.dish-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.dish-tag{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border:1px solid rgba(200,168,75,0.2);color:var(--cream-muted)}
+
+.no-results{text-align:center;padding:40px;color:var(--cream-muted);font-size:13px;font-style:italic;background:var(--dark-2);border:1px solid rgba(200,168,75,0.08)}
+
+/* FLOATING ORDER BUTTON */
+.float-order{position:fixed;bottom:32px;right:32px;z-index:50;background:var(--gold);color:var(--dark);padding:14px 28px;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:500;border:none;box-shadow:0 4px 24px rgba(200,168,75,0.3);transition:all 0.2s;display:none;-webkit-appearance:none;touch-action:manipulation}
+.float-order.show{display:block}
+.float-order:hover{background:var(--gold-light)}
+
+/* WINE OFFER & FLOW */
+.wine-offer{background:var(--dark-3);border:1px solid rgba(200,168,75,0.2);padding:32px;text-align:center;margin-top:32px;animation:fadeUp 0.4s ease}
+.wine-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;color:var(--cream);margin-bottom:8px}
+.wine-sub{font-size:12px;color:var(--cream-muted);line-height:1.8;margin-bottom:24px}
+.wine-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-wine-yes{background:var(--gold);color:var(--dark);padding:13px 32px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:500;border:2px solid var(--gold);transition:all 0.2s;-webkit-appearance:none;touch-action:manipulation}
+.btn-wine-yes:hover{background:transparent;color:var(--gold)}
+.btn-wine-no{background:transparent;border:1px solid rgba(200,168,75,0.2);color:var(--cream-muted);padding:13px 32px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.2s;-webkit-appearance:none;touch-action:manipulation}
+.btn-wine-no:hover{border-color:var(--gold);color:var(--gold)}
+.wine-step{background:var(--dark-3);border:1px solid rgba(200,168,75,0.15);padding:28px;margin-top:16px;animation:fadeUp 0.3s ease}
+.wine-step-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--cream);margin-bottom:6px}
+.wine-step-hint{font-size:11px;color:var(--cream-muted);margin-bottom:20px}
+.wine-opts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.wine-opt{background:transparent;border:1px solid rgba(200,168,75,0.2);color:var(--cream-muted);padding:11px 20px;font-size:11px;letter-spacing:0.08em;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.2s;-webkit-appearance:none;touch-action:manipulation}
+.wine-opt:hover,.wine-opt.sel{border-color:var(--gold);color:var(--gold);background:rgba(200,168,75,0.07)}
+.price-slider-wrap{margin:20px 0 8px;text-align:center}
+.price-range-label{font-size:14px;color:var(--gold);font-family:'Cormorant Garamond',serif;margin-bottom:14px;display:block;font-style:italic}
+.price-track{position:relative;height:2px;background:rgba(200,168,75,0.15);margin:28px 8px 8px;border-radius:1px}
+.price-track-fill{position:absolute;height:100%;background:var(--gold);border-radius:1px;top:0}
+input[type=range].price-slider{-webkit-appearance:none;appearance:none;width:100%;height:2px;background:transparent;outline:none;position:absolute;top:0;left:0;margin:0;pointer-events:none}
+input[type=range].price-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--dark);pointer-events:all;box-shadow:0 0 8px rgba(200,168,75,0.4)}
+input[type=range].price-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--gold);cursor:pointer;border:2px solid var(--dark);pointer-events:all}
+.price-minmax{display:flex;justify-content:space-between;font-size:10px;color:var(--cream-muted);letter-spacing:0.1em;margin-top:4px}
+.wine-cards{display:flex;flex-direction:column;gap:12px;margin-top:20px;animation:fadeUp 0.35s ease}
+.wine-card{background:var(--dark-2);border:1px solid rgba(200,168,75,0.1);padding:20px 24px;display:flex;gap:16px;align-items:flex-start;cursor:pointer;transition:all 0.2s;touch-action:manipulation}
+.wine-card:hover{border-color:rgba(200,168,75,0.3)}
+.wine-card.chosen{border-color:var(--gold);background:rgba(200,168,75,0.06)}
+.wine-card-check{width:22px;height:22px;border:1px solid rgba(200,168,75,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--gold);margin-top:2px;transition:all 0.2s}
+.wine-card.chosen .wine-card-check{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+.wine-card-info{flex:1}
+.wine-card-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--cream);margin-bottom:2px}
+.wine-card-meta{font-size:10px;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.wine-card-desc{font-size:11px;color:var(--cream-muted);line-height:1.7}
+.wine-card-price{font-size:16px;color:var(--gold);white-space:nowrap;font-family:'Cormorant Garamond',serif;padding-top:2px}
+.wine-badge{display:inline-block;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border:1px solid rgba(200,168,75,0.25);color:var(--cream-muted);margin-right:6px;margin-top:4px}
+.wine-spinner-wrap{text-align:center;padding:32px;color:var(--cream-muted);font-size:12px;font-style:italic}
+.wine-spinner-wrap .spinner{width:24px;height:24px;border:2px solid rgba(200,168,75,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px}
+
+/* WAITER SCREEN */
+.waiter-overlay{display:none;position:fixed;inset:0;background:var(--dark);z-index:200;overflow-y:auto;padding:60px 40px;flex-direction:column}
+.waiter-overlay.show{display:flex;flex-direction:column}
+.waiter-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);font-weight:300;font-style:italic;color:var(--gold);text-align:center;margin-bottom:6px}
+.waiter-sub{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--cream-muted);text-align:center;margin-bottom:48px}
+.waiter-items{flex:1}
+.waiter-item{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-bottom:1px solid rgba(200,168,75,0.1);gap:16px}
+.waiter-item-left{}
+.waiter-item-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-style:italic;color:var(--cream)}
+.waiter-item-cat{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream-muted);margin-top:3px}
+.waiter-item-warn{font-size:10px;color:var(--gold-light);margin-top:4px;font-style:italic}
+.waiter-item-price{font-size:20px;color:var(--gold);white-space:nowrap;font-family:'Cormorant Garamond',serif}
+.waiter-total{display:flex;justify-content:space-between;padding:20px 0;border-top:1px solid rgba(200,168,75,0.3);margin-top:8px}
+.waiter-total-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--cream-muted)}
+.waiter-total-price{font-size:22px;color:var(--gold);font-family:'Cormorant Garamond',serif}
+.waiter-close{background:transparent;border:1px solid rgba(200,168,75,0.3);color:var(--cream-muted);padding:14px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;margin-top:32px;width:100%;-webkit-appearance:none;touch-action:manipulation;transition:all 0.2s}
+.waiter-close:hover{border-color:var(--gold);color:var(--gold)}
+.restart-btn{background:transparent;border:none;color:var(--cream-muted);font-size:11px;cursor:pointer;font-family:'Montserrat',sans-serif;text-decoration:underline;display:block;width:100%;text-align:center;padding:12px;margin-top:8px;-webkit-appearance:none;touch-action:manipulation}
+
+.gold-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0.2;margin:40px 0}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .main{padding:80px 20px 100px}
+  .question-card{padding:24px 18px}
+  .bot-nav{flex-direction:column-reverse}
+  .btn-next,.btn-back{width:100%;text-align:center}
+  .float-order{bottom:20px;right:20px;left:20px;text-align:center}
+  .waiter-overlay{padding:40px 24px}
+  .dish-card{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo-text" id="navHome">← Home</a>
+  <ul class="nav-links">
+    <li><a href="/menu">Menu</a></li>
+    <li><a href="helper.html" class="active">Aiutami</a></li>
+  </ul>
+</nav>
+
+<div class="main">
+  <div class="page-header">
+    <div class="page-eyebrow" id="pageEyebrow">Il tuo assistente personale</div>
+    <h1 class="page-title" id="pageTitle">Cosa ti va<br>stasera?</h1>
+    <p class="page-sub" id="pageSub">Rispondi a 4 domande — ti mostreremo i piatti adatti a te. Scegli quelli che vuoi e mostra la lista al cameriere.</p>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizWrap">
+    <div class="progress-wrap">
+      <div class="progress-label" id="progressLabel">Domanda 1 di 4</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:25%"></div></div>
+    </div>
+    <div id="questionCard"></div>
+    <div class="bot-nav" id="botNav">
+      <button class="btn-back" id="btnBack" onclick="prevStep()" style="visibility:hidden">← Indietro</button>
+      <button class="btn-next" id="btnNext" onclick="nextStep()" disabled>Avanti →</button>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loadingWrap" style="display:none">
+    <div class="loading"><div class="spinner"></div>Sto cercando i piatti perfetti per te...</div>
+  </div>
+
+  <!-- DISHES -->
+  <div id="dishesWrap" style="display:none"></div>
+</div>
+
+<!-- FLOATING ORDER BUTTON -->
+<button class="float-order" id="floatOrder" onclick="openWaiter()">
+  🍽 Il mio ordine (<span id="orderCount">0</span>)
+</button>
+
+<!-- WAITER OVERLAY -->
+<div class="waiter-overlay" id="waiterOverlay">
+  <div class="waiter-title">Il mio ordine</div>
+  <div class="waiter-sub">Mostra questo schermo al cameriere</div>
+  <div class="waiter-items" id="waiterItems"></div>
+  <button class="waiter-close" onclick="closeWaiter()">← Torna ai piatti</button>
+  <button class="restart-btn" onclick="restart()">Ricomincia da capo</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════
+
+// Адрес бэкенда — пустая строка = тот же сервер
+const API_URL = '';
+
+// Язык берём из sessionStorage (выбран на главной)
+const LANG = sessionStorage.getItem('lang') || 'it';
+
+// Категории на разных языках
+const CAT_LABELS = {
+  antipasti: {it:'Antipasti', en:'Starters', ru:'Закуски', de:'Vorspeisen', fr:'Entrées', es:'Entrantes', uk:'Закуски', zh:'开胃菜', ja:'前菜'},
+  primi:     {it:'Primi Piatti', en:'First Courses', ru:'Первые блюда', de:'Erste Gänge', fr:'Premiers plats', es:'Primeros', uk:'Перші страви', zh:'头道菜', ja:'プリモ'},
+  secondi:   {it:'Secondi Piatti', en:'Main Courses', ru:'Вторые блюда', de:'Hauptgerichte', fr:'Plats principaux', es:'Principales', uk:'Другі страви', zh:'主菜', ja:'セコンド'},
+};
+
+// ═══════════════════════════════════════════════════
+// ВОПРОСЫ
+// ═══════════════════════════════════════════════════
+
+// Переводы вопросов и ответов
+const Q_TRANSLATIONS = {
+  it: {
+    eyebrow: 'Il tuo assistente personale', title: 'Cosa ti va stasera?',
+    sub: 'Rispondi a 4 domande — ti mostreremo i piatti adatti a te. Scegli quelli che vuoi e mostra la lista al cameriere.',
+    q1_text: 'Hai allergie o intolleranze?', q1_hint: 'Puoi selezionare più opzioni',
+    q1_opts: ['Glutine','Lattosio','Pesce/Frutti di mare','Frutta a guscio','Uova','Nessuna'],
+    q2_text: 'Segui una dieta particolare?', q2_hint: '',
+    q2_opts: ['Vegetariano','Pescetariano','Vegano','Nessuna restrizione'],
+    q3_text: 'Che tipo di menu preferisci?', q3_hint: 'Tradizione è il menu fisso — Gourmet cambia ogni stagione',
+    q3_opts: ['Tradizione','Gourmet','Indifferente'],
+    q4_text: 'Cosa vuoi ordinare stasera?', q4_hint: 'Puoi scegliere più portate',
+    q4_opts: ['Antipasto','Primo','Secondo'],
+    step_label: 'Domanda', of_label: 'di',
+    next: 'Avanti →', back: '← Indietro',
+  },
+  en: {
+    eyebrow: 'Your personal assistant', title: 'What do you feel like tonight?',
+    sub: 'Answer 4 questions — we\'ll show you the right dishes for you. Choose what you want and show the list to the waiter.',
+    q1_text: 'Do you have any allergies?', q1_hint: 'You can select multiple options',
+    q1_opts: ['Glutine','Lattosio','Pesce/Frutti di mare','Frutta a guscio','Uova','Nessuna'],
+    q2_text: 'Do you follow a particular diet?', q2_hint: '',
+    q2_opts: ['Vegetariano','Pescetariano','Vegano','Nessuna restrizione'],
+    q3_text: 'What type of menu do you prefer?', q3_hint: 'Tradizione is the fixed menu — Gourmet changes every season',
+    q3_opts: ['Tradizione','Gourmet','Indifferente'],
+    q4_text: 'What would you like to order tonight?', q4_hint: 'You can choose multiple courses',
+    q4_opts: ['Antipasto','Primo','Secondo'],
+    step_label: 'Question', of_label: 'of',
+    next: 'Next →', back: '← Back',
+  },
+  ru: {
+    eyebrow: 'Ваш личный помощник', title: 'Что вам хочется сегодня?',
+    sub: 'Ответьте на 4 вопроса — мы покажем вам подходящие блюда. Выберите что хотите и покажите список официанту.',
+    q1_text: 'Есть ли у вас аллергии?', q1_hint: 'Можно выбрать несколько вариантов',
+    q1_opts: ['Glutine','Lattosio','Pesce/Frutti di mare','Frutta a guscio','Uova','Nessuna'],
+    q2_text: 'Придерживаетесь ли вы особой диеты?', q2_hint: '',
+    q2_opts: ['Vegetariano','Pescetariano','Vegano','Nessuna restrizione'],
+    q3_text: 'Какое меню вы предпочитаете?', q3_hint: 'Tradizione — постоянное меню, Gourmet меняется каждый сезон',
+    q3_opts: ['Tradizione','Gourmet','Indifferente'],
+    q4_text: 'Что вы хотите заказать сегодня?', q4_hint: 'Можно выбрать несколько блюд',
+    q4_opts: ['Antipasto','Primo','Secondo'],
+    step_label: 'Вопрос', of_label: 'из',
+    next: 'Далее →', back: '← Назад',
+  },
+  de: {
+    eyebrow: 'Ihr persönlicher Assistent', title: 'Was möchten Sie heute Abend?',
+    sub: 'Beantworten Sie 4 Fragen — wir zeigen Ihnen die passenden Gerichte.',
+    q1_text: 'Haben Sie Allergien oder Unverträglichkeiten?', q1_hint: 'Sie können mehrere Optionen auswählen',
+    q1_opts: ['Glutine','Lattosio','Pesce/Frutti di mare','Frutta a guscio','Uova','Nessuna'],
+    q2_text: 'Folgen Sie einer besonderen Ernährung?', q2_hint: '',
+    q2_opts: ['Vegetariano','Pescetariano','Vegano','Nessuna restrizione'],
+    q3_text: 'Welches Menü bevorzugen Sie?', q3_hint: 'Tradizione ist das Standardmenü — Gourmet wechselt jede Saison',
+    q3_opts: ['Tradizione','Gourmet','Indifferente'],
+    q4_text: 'Was möchten Sie heute Abend bestellen?', q4_hint: 'Sie können mehrere Gänge wählen',
+    q4_opts: ['Antipasto','Primo','Secondo'],
+    step_label: 'Frage', of_label: 'von',
+    next: 'Weiter →', back: '← Zurück',
+  },
+  fr: {
+    eyebrow: 'Votre assistant personnel', title: 'Qu\'est-ce qui vous fait envie ce soir?',
+    sub: 'Répondez à 4 questions — nous vous montrerons les plats adaptés.',
+    q1_text: 'Avez-vous des allergies?', q1_hint: 'Vous pouvez sélectionner plusieurs options',
+    q1_opts: ['Glutine','Lattosio','Pesce/Frutti di mare','Frutta a guscio','Uova','Nessuna'],
+    q2_text: 'Suivez-vous un régime particulier?', q2_hint: '',
+    q2_opts: ['Vegetariano','Pescetariano','Vegano','Nessuna restrizione'],
+    q3_text: 'Quel type de menu préférez-vous?', q3_hint: 'Tradizione est le menu fixe — Gourmet change chaque saison',
+    q3_opts: ['Tradizione','Gourmet','Indifferente'],
+    q4_text: 'Que voulez-vous commander ce soir?', q4_hint: 'Vous pouvez choisir plusieurs plats',
+    q4_opts: ['Antipasto','Primo','Secondo'],
+    step_label: 'Question', of_label: 'sur',
+    next: 'Suivant →', back: '← Retour',
+  },
+  es: {
+    eyebrow: 'Tu asistente personal', title: '¿Qué te apetece esta noche?',
+    sub: 'Responde 4 preguntas — te mostraremos los platos adecuados.',
+    q1_text: '¿Tienes alguna alergia?', q1_hint: 'Puedes seleccionar varias opciones',
+    q1_opts: ['Glutine','Lattosio','Pesce/Frutti di mare','Frutta a guscio','Uova','Nessuna'],
+    q2_text: '¿Sigues alguna dieta especial?', q2_hint: '',
+    q2_opts: ['Vegetariano','Pescetariano','Vegano','Nessuna restrizione'],
+    q3_text: '¿Qué tipo de menú prefieres?', q3_hint: 'Tradizione es el menú fijo — Gourmet cambia cada temporada',
+    q3_opts: ['Tradizione','Gourmet','Indifferente'],
+    q4_text: '¿Qué quieres pedir esta noche?', q4_hint: 'Puedes elegir varios platos',
+    q4_opts: ['Antipasto','Primo','Secondo'],
+    step_label: 'Pregunta', of_label: 'de',
+    next: 'Siguiente →', back: '← Atrás',
+  },
+  uk: {
+    eyebrow: 'Ваш особистий помічник', title: 'Чого вам хочеться сьогодні?',
+    sub: 'Дайте відповідь на 4 питання — ми покажемо вам підходящі страви.',
+    q1_text: 'Чи є у вас алергії?', q1_hint: 'Можна вибрати кілька варіантів',
+    q1_opts: ['Glutine','Lattosio','Pesce/Frutti di mare','Frutta a guscio','Uova','Nessuna'],
+    q2_text: 'Чи дотримуєтесь ви особливої дієти?', q2_hint: '',
+    q2_opts: ['Vegetariano','Pescetariano','Vegano','Nessuna restrizione'],
+    q3_text: 'Яке меню ви надаєте перевагу?', q3_hint: 'Tradizione — постійне меню, Gourmet змінюється щосезону',
+    q3_opts: ['Tradizione','Gourmet','Indifferente'],
+    q4_text: 'Що ви хочете замовити сьогодні?', q4_hint: 'Можна вибрати кілька страв',
+    q4_opts: ['Antipasto','Primo','Secondo'],
+    step_label: 'Питання', of_label: 'з',
+    next: 'Далі →', back: '← Назад',
+  },
+  zh: {
+    eyebrow: '您的私人助手', title: '今晚想吃什么?',
+    sub: '回答4个问题 — 我们将为您推荐合适的菜肴。',
+    q1_text: '您有任何过敏症吗?', q1_hint: '可以选择多个选项',
+    q1_opts: ['Glutine','Lattosio','Pesce/Frutti di mare','Frutta a guscio','Uova','Nessuna'],
+    q2_text: '您有特殊饮食要求吗?', q2_hint: '',
+    q2_opts: ['Vegetariano','Pescetariano','Vegano','Nessuna restrizione'],
+    q3_text: '您喜欢哪种菜单?', q3_hint: '传统菜单是固定的 — 美食菜单每季更换',
+    q3_opts: ['Tradizione','Gourmet','Indifferente'],
+    q4_text: '今晚您想点什么?', q4_hint: '可以选择多道菜',
+    q4_opts: ['Antipasto','Primo','Secondo'],
+    step_label: '问题', of_label: '/',
+    next: '下一步 →', back: '← 返回',
+  },
+  ja: {
+    eyebrow: 'あなたのアシスタント', title: '今夜は何が食べたいですか?',
+    sub: '4つの質問に答えてください — あなたに合った料理をご提案します。',
+    q1_text: 'アレルギーはありますか?', q1_hint: '複数選択できます',
+    q1_opts: ['Glutine','Lattosio','Pesce/Frutti di mare','Frutta a guscio','Uova','Nessuna'],
+    q2_text: '特別な食事制限はありますか?', q2_hint: '',
+    q2_opts: ['Vegetariano','Pescetariano','Vegano','Nessuna restrizione'],
+    q3_text: 'どのタイプのメニューをご希望ですか?', q3_hint: 'Tradizioneは固定メニュー — Gourmetは毎シーズン変わります',
+    q3_opts: ['Tradizione','Gourmet','Indifferente'],
+    q4_text: '今夜は何を注文しますか?', q4_hint: '複数のコースを選べます',
+    q4_opts: ['Antipasto','Primo','Secondo'],
+    step_label: '質問', of_label: '/',
+    next: '次へ →', back: '← 戻る',
+  },
+};
+
+const TQ = Q_TRANSLATIONS[LANG] || Q_TRANSLATIONS.it;
+
+// Переводы отображаемых названий опций (ключи остаются итальянскими для API)
+const OPTION_LABELS = {
+  it: {
+    'Glutine':'Glutine','Lattosio':'Lattosio','Pesce/Frutti di mare':'Pesce/Frutti di mare',
+    'Frutta a guscio':'Frutta a guscio','Uova':'Uova','Nessuna':'Nessuna',
+    'Vegetariano':'Vegetariano','Pescetariano':'Pescetariano','Vegano':'Vegano','Nessuna restrizione':'Nessuna restrizione',
+    'Tradizione':'Tradizione','Gourmet':'Gourmet','Indifferente':'Indifferente',
+    'Antipasto':'Antipasto','Primo':'Primo','Secondo':'Secondo',
+  },
+  en: {
+    'Glutine':'Gluten','Lattosio':'Lactose','Pesce/Frutti di mare':'Fish/Seafood',
+    'Frutta a guscio':'Nuts','Uova':'Eggs','Nessuna':'None',
+    'Vegetariano':'Vegetarian','Pescetariano':'Pescetarian','Vegano':'Vegan','Nessuna restrizione':'No restrictions',
+    'Tradizione':'Traditional','Gourmet':'Gourmet','Indifferente':'No preference',
+    'Antipasto':'Starter','Primo':'First course','Secondo':'Main course',
+  },
+  ru: {
+    'Glutine':'Глютен','Lattosio':'Лактоза','Pesce/Frutti di mare':'Рыба/морепродукты',
+    'Frutta a guscio':'Орехи','Uova':'Яйца','Nessuna':'Нет',
+    'Vegetariano':'Вегетарианец','Pescetariano':'Пескетарианец','Vegano':'Веган','Nessuna restrizione':'Без ограничений',
+    'Tradizione':'Традиция','Gourmet':'Гурме','Indifferente':'Всё равно',
+    'Antipasto':'Закуска','Primo':'Первое','Secondo':'Второе',
+  },
+  de: {
+    'Glutine':'Gluten','Lattosio':'Laktose','Pesce/Frutti di mare':'Fisch/Meeresfrüchte',
+    'Frutta a guscio':'Nüsse','Uova':'Eier','Nessuna':'Keine',
+    'Vegetariano':'Vegetarisch','Pescetariano':'Pescetarisch','Vegano':'Vegan','Nessuna restrizione':'Keine Einschränkungen',
+    'Tradizione':'Tradition','Gourmet':'Gourmet','Indifferente':'Egal',
+    'Antipasto':'Vorspeise','Primo':'Erster Gang','Secondo':'Hauptgericht',
+  },
+  fr: {
+    'Glutine':'Gluten','Lattosio':'Lactose','Pesce/Frutti di mare':'Poisson/Fruits de mer',
+    'Frutta a guscio':'Noix','Uova':'Œufs','Nessuna':'Aucune',
+    'Vegetariano':'Végétarien','Pescetariano':'Pescétarien','Vegano':'Végétalien','Nessuna restrizione':'Sans restriction',
+    'Tradizione':'Tradition','Gourmet':'Gastronomique','Indifferente':'Peu importe',
+    'Antipasto':'Entrée','Primo':'Premier plat','Secondo':'Plat principal',
+  },
+  es: {
+    'Glutine':'Gluten','Lattosio':'Lactosa','Pesce/Frutti di mare':'Pescado/Mariscos',
+    'Frutta a guscio':'Frutos secos','Uova':'Huevos','Nessuna':'Ninguna',
+    'Vegetariano':'Vegetariano','Pescetariano':'Pescetariano','Vegano':'Vegano','Nessuna restrizione':'Sin restricciones',
+    'Tradizione':'Tradición','Gourmet':'Gourmet','Indifferente':'Indiferente',
+    'Antipasto':'Entrante','Primo':'Primer plato','Secondo':'Plato principal',
+  },
+  uk: {
+    'Glutine':'Глютен','Lattosio':'Лактоза','Pesce/Frutti di mare':'Риба/морепродукти',
+    'Frutta a guscio':'Горіхи','Uova':'Яйця','Nessuna':'Немає',
+    'Vegetariano':'Вегетаріанець','Pescetariano':'Пескетаріанець','Vegano':'Веган','Nessuna restrizione':'Без обмежень',
+    'Tradizione':'Традиція','Gourmet':'Гурме','Indifferente':'Все одно',
+    'Antipasto':'Закуска','Primo':'Перша страва','Secondo':'Друга страва',
+  },
+  zh: {
+    'Glutine':'麸质','Lattosio':'乳糖','Pesce/Frutti di mare':'鱼/海鲜',
+    'Frutta a guscio':'坚果','Uova':'鸡蛋','Nessuna':'无',
+    'Vegetariano':'素食','Pescetariano':'海鲜素食','Vegano':'纯素','Nessuna restrizione':'无限制',
+    'Tradizione':'传统','Gourmet':'美食','Indifferente':'无所谓',
+    'Antipasto':'开胃菜','Primo':'头道菜','Secondo':'主菜',
+  },
+  ja: {
+    'Glutine':'グルテン','Lattosio':'乳糖','Pesce/Frutti di mare':'魚介類',
+    'Frutta a guscio':'ナッツ','Uova':'卵','Nessuna':'なし',
+    'Vegetariano':'ベジタリアン','Pescetariano':'ペスカタリアン','Vegano':'ビーガン','Nessuna restrizione':'制限なし',
+    'Tradizione':'伝統','Gourmet':'グルメ','Indifferente':'どちらでも',
+    'Antipasto':'前菜','Primo':'プリモ','Secondo':'セコンド',
+  },
+};
+
+const OL = OPTION_LABELS[LANG] || OPTION_LABELS.it;
+
+const QUESTIONS = [
+  { id:'allergens', step:1, text:TQ.q1_text, hint:TQ.q1_hint, type:'multi',   options:TQ.q1_opts },
+  { id:'diet',      step:2, text:TQ.q2_text, hint:TQ.q2_hint, type:'single',  options:TQ.q2_opts },
+  { id:'menu_type', step:3, text:TQ.q3_text, hint:TQ.q3_hint, type:'single',  options:TQ.q3_opts },
+  { id:'categories',step:4, text:TQ.q4_text, hint:TQ.q4_hint, type:'multi',   options:TQ.q4_opts },
+];
+
+// ═══════════════════════════════════════════════════
+// STATO
+// ═══════════════════════════════════════════════════
+
+let state = {
+  step: 0,
+  answers: {
+    allergens: [],
+    diet: '',
+    menu_type: '',
+    categories: [],
+  },
+  order: [],   // выбранные блюда
+};
+
+// ═══════════════════════════════════════════════════
+// QUIZ РЕНДЕР
+// ═══════════════════════════════════════════════════
+
+function renderQuestion() {
+  const q = QUESTIONS[state.step];
+  const total = QUESTIONS.length;
+  const pct = Math.round(((state.step + 1) / total) * 100);
+
+  document.getElementById('progressLabel').textContent = `${TQ.step_label} ${state.step + 1} ${TQ.of_label} ${total}`;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('btnBack').style.visibility = state.step > 0 ? 'visible' : 'hidden';
+  document.getElementById('btnNext').textContent = state.step < QUESTIONS.length - 1 ? TQ.next : (LANG === 'ru' ? 'Показать блюда →' : LANG === 'en' ? 'Show dishes →' : 'Mostra piatti →');
+  document.getElementById('btnBack').textContent = TQ.back;
+
+  const val = state.answers[q.id];
+  const isMulti = q.type === 'multi';
+  const selected = isMulti ? (Array.isArray(val) ? val : []) : val;
+
+  const optsHTML = q.options.map(opt => {
+    const isSel = isMulti ? selected.includes(opt) : selected === opt;
+    const label = OL[opt] || opt;
+    return `<button class="opt${isSel ? ' sel' : ''}"
+      onclick="${isMulti ? `toggleOpt('${q.id}','${opt}')` : `pickOpt('${q.id}','${opt}')`}"
+      >${label}</button>`;
+  }).join('');
+
+  document.getElementById('questionCard').innerHTML = `
+    <div class="question-card">
+      <div class="q-step">${TQ.step_label} ${q.step}</div>
+      <div class="q-text">${q.text}</div>
+      ${q.hint ? `<div class="q-hint">${q.hint}</div>` : ''}
+      <div class="options">${optsHTML}</div>
+    </div>`;
+
+  updateNextBtn();
+}
+
+function pickOpt(id, val) {
+  state.answers[id] = val;
+  renderQuestion();
+}
+
+function toggleOpt(id, val) {
+  if (!Array.isArray(state.answers[id])) state.answers[id] = [];
+  const arr = state.answers[id];
+
+  if (val === 'Nessuna') {
+    state.answers[id] = arr.includes('Nessuna') ? [] : ['Nessuna'];
+  } else {
+    // убираем "Nessuna" если выбираем что-то конкретное
+    const ni = arr.indexOf('Nessuna');
+    if (ni > -1) arr.splice(ni, 1);
+    const idx = arr.indexOf(val);
+    if (idx > -1) arr.splice(idx, 1);
+    else arr.push(val);
+  }
+  renderQuestion();
+}
+
+function updateNextBtn() {
+  const q = QUESTIONS[state.step];
+  const val = state.answers[q.id];
+  let ok = false;
+  if (q.type === 'multi') ok = Array.isArray(val) && val.length > 0;
+  else ok = !!val;
+  document.getElementById('btnNext').disabled = !ok;
+}
+
+function nextStep() {
+  if (state.step < QUESTIONS.length - 1) {
+    state.step++;
+    renderQuestion();
+  } else {
+    loadDishes();
+  }
+}
+
+function prevStep() {
+  if (state.step > 0) {
+    state.step--;
+    renderQuestion();
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// FETCH К API
+// ═══════════════════════════════════════════════════
+
+async function loadDishes() {
+  // Показываем лоадер
+  document.getElementById('quizWrap').style.display = 'none';
+  document.getElementById('loadingWrap').style.display = 'block';
+
+  // Маппим категории из Q4
+  const catMap = { 'Antipasto': 'antipasti', 'Primo': 'primi', 'Secondo': 'secondi' };
+  const categories = state.answers.categories
+    .map(c => catMap[c])
+    .filter(Boolean);
+
+  // Маппим тип меню
+  const menuMap = { 'Tradizione': 'tradizione', 'Gourmet': 'gourmet', 'Indifferente': '' };
+
+  const payload = {
+    allergens:  state.answers.allergens.filter(a => a !== 'Nessuna'),
+    diet:       state.answers.diet === 'Nessuna restrizione' ? '' : state.answers.diet,
+    menu_type:  menuMap[state.answers.menu_type] || '',
+    categories: categories,
+    lang:       LANG,
+  };
+
+  try {
+    const res = await fetch(`${API_URL}/api/filter`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    showDishes(data);
+
+  } catch (err) {
+    // Если бэкенд недоступен — показываем заглушку
+    document.getElementById('loadingWrap').style.display = 'none';
+    document.getElementById('dishesWrap').style.display = 'block';
+    const errMsg = {
+      it: 'Il backend Python non è avviato.',
+      en: 'The Python backend is not running.',
+      ru: 'Python сервер не запущен.',
+      de: 'Der Python-Server ist nicht gestartet.',
+      fr: 'Le serveur Python n\'est pas démarré.',
+      es: 'El servidor Python no está iniciado.',
+      uk: 'Python сервер не запущено.',
+      zh: 'Python服务器未启动。',
+      ja: 'Pythonサーバーが起動していません。',
+    };
+    const errTitle = {
+      it:'Server non disponibile', en:'Server unavailable', ru:'Сервер недоступен',
+      de:'Server nicht verfügbar', fr:'Serveur indisponible', es:'Servidor no disponible',
+      uk:'Сервер недоступний', zh:'服务器不可用', ja:'サーバー利用不可',
+    };
+    const restartLabel = {
+      it:'Ricomincia', en:'Restart', ru:'Начать заново', de:'Neustart',
+      fr:'Recommencer', es:'Reiniciar', uk:'Почати знову', zh:'重新开始', ja:'やり直す',
+    };
+    document.getElementById('dishesWrap').innerHTML = `
+      <div class="no-results" style="padding:48px;text-align:center">
+        <div style="font-size:32px;margin-bottom:16px">⚠</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);margin-bottom:8px">${errTitle[LANG]||errTitle.it}</div>
+        <div style="font-size:12px;color:var(--cream-muted);line-height:1.9">
+          ${errMsg[LANG]||errMsg.it}<br>
+          <code style="color:var(--gold)">uvicorn main:app --reload</code>
+        </div>
+        <button onclick="restart()" style="margin-top:24px;background:transparent;border:1px solid rgba(200,168,75,0.3);color:var(--gold);padding:12px 28px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif">${restartLabel[LANG]||restartLabel.it}</button>
+      </div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// ПОКАЗАТЬ БЛЮДА
+// ═══════════════════════════════════════════════════
+
+function showDishes(data) {
+  document.getElementById('loadingWrap').style.display = 'none';
+  const wrap = document.getElementById('dishesWrap');
+  wrap.style.display = 'block';
+
+  const total = data.total || 0;
+  const DISHES_T = {
+    it: {title:'Ecco i tuoi piatti', sub:`${total} piatti trovati · Tappa quelli che vuoi ordinare`, wine_title:'Vuoi aggiungere un vino?', wine_sub:'Il nostro sommelier ha selezionato i vini migliori per la tua serata.', wine_yes:'Sì, mostrami i vini', wine_no:'No, grazie', no_results:'Nessun piatto trovato con questi criteri.', restart:'Ricomincia da capo'},
+    en: {title:'Here are your dishes', sub:`${total} dishes found · Tap the ones you want to order`, wine_title:'Would you like to add wine?', wine_sub:'Our sommelier has selected the best wines for your evening.', wine_yes:'Yes, show me wines', wine_no:'No thanks', no_results:'No dishes found with these criteria.', restart:'Start again'},
+    ru: {title:'Вот ваши блюда', sub:`Найдено ${total} блюд · Нажмите на те что хотите заказать`, wine_title:'Хотите добавить вино?', wine_sub:'Наш сомелье подобрал лучшие вина для вашего вечера.', wine_yes:'Да, покажите вина', wine_no:'Нет, спасибо', no_results:'Блюда не найдены по этим критериям.', restart:'Начать заново'},
+    de: {title:'Ihre Gerichte', sub:`${total} Gerichte gefunden · Tippen Sie auf die gewünschten`, wine_title:'Möchten Sie Wein hinzufügen?', wine_sub:'Unser Sommelier hat die besten Weine für Ihren Abend ausgewählt.', wine_yes:'Ja, zeig mir Weine', wine_no:'Nein danke', no_results:'Keine Gerichte mit diesen Kriterien gefunden.', restart:'Neu starten'},
+    fr: {title:'Voici vos plats', sub:`${total} plats trouvés · Appuyez sur ceux que vous voulez`, wine_title:'Voulez-vous ajouter du vin?', wine_sub:'Notre sommelier a sélectionné les meilleurs vins pour votre soirée.', wine_yes:'Oui, montrez-moi les vins', wine_no:'Non merci', no_results:'Aucun plat trouvé avec ces critères.', restart:'Recommencer'},
+    es: {title:'Aquí están sus platos', sub:`${total} platos encontrados · Toca los que quieres pedir`, wine_title:'¿Quiere añadir vino?', wine_sub:'Nuestro sommelier ha seleccionado los mejores vinos.', wine_yes:'Sí, muéstrame los vinos', wine_no:'No gracias', no_results:'No se encontraron platos con estos criterios.', restart:'Empezar de nuevo'},
+    uk: {title:'Ось ваші страви', sub:`Знайдено ${total} страв · Натисніть на ті що хочете`, wine_title:'Бажаєте додати вино?', wine_sub:'Наш сомельє підібрав найкращі вина для вашого вечора.', wine_yes:'Так, покажіть вина', wine_no:'Ні, дякую', no_results:'Страви не знайдені за цими критеріями.', restart:'Почати знову'},
+    zh: {title:'您的菜肴', sub:`找到${total}道菜 · 点击您想点的菜`, wine_title:'想加酒吗?', wine_sub:'我们的侍酒师为您精选了最佳葡萄酒。', wine_yes:'是的，给我看葡萄酒', wine_no:'不，谢谢', no_results:'没有找到符合条件的菜肴。', restart:'重新开始'},
+    ja: {title:'あなたの料理', sub:`${total}品見つかりました · 注文したいものをタップ`, wine_title:'ワインを追加しますか?', wine_sub:'ソムリエが最高のワインを選びました。', wine_yes:'はい、ワインを見せて', wine_no:'いいえ結構です', no_results:'条件に合う料理が見つかりませんでした。', restart:'やり直す'},
+  };
+  const DT = DISHES_T[LANG] || DISHES_T.it;
+
+  let html = `
+    <div class="dishes-wrap">
+      <div class="dishes-header">
+        <div class="dishes-title">${DT.title}</div>
+        <div class="dishes-sub">${DT.sub}</div>
+      </div>`;
+
+  const sections = [
+    { key: 'antipasti', dishes: data.antipasti || [] },
+    { key: 'primi',     dishes: data.primi || [] },
+    { key: 'secondi',   dishes: data.secondi || [] },
+  ];
+
+  let hasAny = false;
+  for (const sec of sections) {
+    if (!sec.dishes.length) continue;
+    hasAny = true;
+    const label = CAT_LABELS[sec.key]?.[LANG] || sec.key;
+    html += `<div class="category-block">
+      <div class="cat-label">${label}</div>`;
+    for (const dish of sec.dishes) {
+      const isChosen = state.order.some(o => o.id === dish.id);
+      const tags = [];
+      if (dish.menu_type === 'gourmet') tags.push('Gourmet');
+      html += `
+        <div class="dish-card${isChosen ? ' chosen' : ''}" onclick="toggleDish(${dish.id})" data-id="${dish.id}">
+          <div class="dish-check">${isChosen ? '✓' : ''}</div>
+          <div class="dish-info">
+            <div class="dish-name">${dish.name}</div>
+            ${dish.description ? `<div class="dish-desc">${dish.description}</div>` : ''}
+            ${dish.adapt_note ? `<div class="dish-warn">⚠ ${dish.adapt_note}</div>` : ''}
+            ${tags.length ? `<div class="dish-tags">${tags.map(t=>`<span class="dish-tag">${t}</span>`).join('')}</div>` : ''}
+          </div>
+          <div class="dish-price">€ ${dish.price.toFixed(2)}</div>
+        </div>`;
+    }
+    html += `</div>`;
+  }
+
+  if (!hasAny) {
+    html += `<div class="no-results">${DT.no_results}</div>`;
+  }
+
+  html += `<div class="gold-divider"></div>`;
+
+  // Предложение вина
+  html += `
+    <div class="wine-offer" id="wineOffer">
+      <div class="wine-title">${DT.wine_title}</div>
+      <div class="wine-sub">${DT.wine_sub}</div>
+      <div class="wine-btns">
+        <button class="btn-wine-yes" onclick="showWines()">${DT.wine_yes}</button>
+        <button class="btn-wine-no" onclick="skipWine()">${DT.wine_no}</button>
+      </div>
+    </div>`;
+
+  html += `<button class="restart-btn" onclick="restart()">${DT.restart}</button></div>`;
+  wrap.innerHTML = html;
+
+  // Сохраняем данные блюд для последующего выбора
+  window._allDishes = {};
+  for (const sec of sections) {
+    for (const d of sec.dishes) {
+      window._allDishes[d.id] = { ...d, categoryKey: sec.key };
+    }
+  }
+
+  updateFloatBtn();
+}
+
+// ═══════════════════════════════════════════════════
+// ВЫБОР БЛЮД (ГАЛОЧКА)
+// ═══════════════════════════════════════════════════
+
+function toggleDish(id) {
+  const dish = window._allDishes?.[id];
+  if (!dish) return;
+
+  const idx = state.order.findIndex(o => o.id === id);
+  if (idx > -1) {
+    state.order.splice(idx, 1);
+  } else {
+    state.order.push(dish);
+  }
+
+  // Обновляем карточку без перерисовки всего
+  const card = document.querySelector(`.dish-card[data-id="${id}"]`);
+  if (card) {
+    const isNowChosen = state.order.some(o => o.id === id);
+    card.classList.toggle('chosen', isNowChosen);
+    card.querySelector('.dish-check').textContent = isNowChosen ? '✓' : '';
+  }
+
+  updateFloatBtn();
+}
+
+function updateFloatBtn() {
+  const btn = document.getElementById('floatOrder');
+  const count = state.order.length;
+  document.getElementById('orderCount').textContent = count;
+  btn.classList.toggle('show', count > 0);
+}
+
+// ═══════════════════════════════════════════════════
+// ВИНО — ПОЛНЫЙ ФЛОУ
+// ═══════════════════════════════════════════════════
+
+// Стейт подбора вина
+const wineState = {
+  format: '',      // 'glass' / 'bottle' / 'choose'
+  glassSize: '',   // '0.25' / '0.5' / 'house'
+  color: '',       // 'rosso' / 'bianco' / 'rosato' / ''
+  style: '',       // 'fermo' / 'frizzante' / ''
+  priceMin: 0,
+  priceMax: 250,
+};
+
+// Переводы для вин
+const WINE_T = {
+  it: {
+    format_q: 'Come vorresti il vino?', format_hint: 'Scegli il formato',
+    glass: 'Al bicchiere', house: 'Vino della casa', bottle: 'In bottiglia',
+    local_q: 'Preferisci un vino locale di Parma/Emilia?', local_yes: 'Sì, locale', local_no: 'Indifferente',
+    glass_q: 'Che misura preferisci?', glass_hint: '',
+    q25: '0.25 lt', q50: '0.5 lt',
+    house_title: 'Vini della Casa', house_sub: 'Scegli il formato',
+    bicchiere: 'Bicchiere', q025: '0.25 lt', q05: '0.5 lt', bottiglia: 'Bottiglia',
+    color_q: 'Che tipo di vino preferisci?', color_hint: 'Puoi scegliere colore e stile',
+    rosso: 'Rosso', bianco: 'Bianco', rosato: 'Rosato',
+    fermo: 'Fermo', frizzante: 'Frizzante / Spumante',
+    price_q: 'Fascia di prezzo per bottiglia', price_hint: '',
+    show_wines: 'Mostra i vini →',
+    results_title: 'I vini consigliati per te',
+    results_glass: 'Al bicchiere', results_bottle: 'La bottiglia',
+    no_wines: 'Nessun vino trovato per questi criteri.',
+    skip: 'Continua senza vino',
+    back_wines: '← Cambia preferenze',
+  },
+  en: {
+    format_q: 'How would you like your wine?', format_hint: 'Choose the format',
+    glass: 'By the glass', house: 'House wine', bottle: 'A bottle',
+    local_q: 'Do you prefer a local Parma/Emilia wine?', local_yes: 'Yes, local', local_no: 'No preference',
+    glass_q: 'What size?', glass_hint: '',
+    q25: '0.25 lt', q50: '0.5 lt',
+    house_title: 'House Wines', house_sub: 'Choose your format',
+    bicchiere: 'Glass', q025: '0.25 lt', q05: '0.5 lt', bottiglia: 'Bottle',
+    color_q: 'What type of wine do you prefer?', color_hint: 'You can choose color and style',
+    rosso: 'Red', bianco: 'White', rosato: 'Rosé',
+    fermo: 'Still', frizzante: 'Sparkling',
+    price_q: 'Price range per bottle', price_hint: '',
+    show_wines: 'Show wines →',
+    results_title: 'Our wine recommendations for you',
+    results_glass: 'By the glass', results_bottle: 'The bottle',
+    no_wines: 'No wines found for these criteria.',
+    skip: 'Continue without wine',
+    back_wines: '← Change preferences',
+  },
+  ru: {
+    format_q: 'Как вы хотите вино?', format_hint: 'Выберите формат',
+    glass: 'Бокал', house: 'Домашнее вино', bottle: 'Бутылку',
+    local_q: 'Предпочитаете местное вино Пармы/Эмилии?', local_yes: 'Да, местное', local_no: 'Всё равно',
+    glass_q: 'Какой объём?', glass_hint: '',
+    q25: '0.25 л', q50: '0.5 л',
+    house_title: 'Домашние вина', house_sub: 'Выберите объём',
+    bicchiere: 'Бокал', q025: '0.25 л', q05: '0.5 л', bottiglia: 'Бутылка',
+    color_q: 'Какое вино предпочитаете?', color_hint: 'Можно выбрать цвет и стиль',
+    rosso: 'Красное', bianco: 'Белое', rosato: 'Розовое',
+    fermo: 'Тихое', frizzante: 'Игристое',
+    price_q: 'Ценовой диапазон за бутылку', price_hint: '',
+    show_wines: 'Показать вина →',
+    results_title: 'Вина, которые мы рекомендуем',
+    results_glass: 'Бокал', results_bottle: 'Бутылка',
+    no_wines: 'Вина по этим критериям не найдены.',
+    skip: 'Продолжить без вина',
+    back_wines: '← Изменить выбор',
+  },
+  de: {
+    format_q: 'Wie möchten Sie den Wein?', format_hint: 'Format wählen',
+    glass: 'Glasweise', house: 'Hauswein', bottle: 'Eine Flasche',
+    local_q: 'Bevorzugen Sie lokalen Parma/Emilia-Wein?', local_yes: 'Ja, lokal', local_no: 'Egal',
+    glass_q: 'Welche Größe?', glass_hint: '',
+    q25: '0,25 lt', q50: '0,5 lt',
+    house_title: 'Hausweine', house_sub: 'Format wählen',
+    bicchiere: 'Glas', q025: '0,25 lt', q05: '0,5 lt', bottiglia: 'Flasche',
+    color_q: 'Welchen Wein bevorzugen Sie?', color_hint: '',
+    rosso: 'Rotwein', bianco: 'Weißwein', rosato: 'Roséwein',
+    fermo: 'Still', frizzante: 'Prickelnd',
+    price_q: 'Preisbereich pro Flasche', price_hint: '',
+    show_wines: 'Weine zeigen →',
+    results_title: 'Unsere Weinempfehlungen für Sie',
+    results_glass: 'Glasweise', results_bottle: 'Die Flasche',
+    no_wines: 'Keine Weine für diese Kriterien gefunden.',
+    skip: 'Ohne Wein fortfahren',
+    back_wines: '← Auswahl ändern',
+  },
+  fr: {
+    format_q: 'Comment souhaitez-vous votre vin?', format_hint: 'Choisissez le format',
+    glass: 'Au verre', house: 'Vin de la maison', bottle: 'Une bouteille',
+    local_q: 'Préférez-vous un vin local de Parme/Émilie?', local_yes: 'Oui, local', local_no: 'Peu importe',
+    glass_q: 'Quelle contenance?', glass_hint: '',
+    q25: '0,25 lt', q50: '0,5 lt',
+    house_title: 'Vins de la maison', house_sub: 'Choisir le format',
+    bicchiere: 'Verre', q025: '0,25 lt', q05: '0,5 lt', bottiglia: 'Bouteille',
+    color_q: 'Quel type de vin préférez-vous?', color_hint: '',
+    rosso: 'Rouge', bianco: 'Blanc', rosato: 'Rosé',
+    fermo: 'Tranquille', frizzante: 'Pétillant',
+    price_q: 'Gamme de prix par bouteille', price_hint: '',
+    show_wines: 'Afficher les vins →',
+    results_title: 'Nos vins recommandés pour vous',
+    results_glass: 'Au verre', results_bottle: 'La bouteille',
+    no_wines: 'Aucun vin trouvé pour ces critères.',
+    skip: 'Continuer sans vin',
+    back_wines: '← Modifier les préférences',
+  },
+  es: {
+    format_q: '¿Cómo desea el vino?', format_hint: 'Elige el formato',
+    glass: 'Por copa', house: 'Vino de la casa', bottle: 'Una botella',
+    local_q: '¿Prefiere un vino local de Parma/Emilia?', local_yes: 'Sí, local', local_no: 'Indiferente',
+    glass_q: '¿Qué tamaño?', glass_hint: '',
+    q25: '0,25 lt', q50: '0,5 lt',
+    house_title: 'Vinos de la casa', house_sub: 'Elegir formato',
+    bicchiere: 'Copa', q025: '0,25 lt', q05: '0,5 lt', bottiglia: 'Botella',
+    color_q: '¿Qué tipo de vino prefiere?', color_hint: '',
+    rosso: 'Tinto', bianco: 'Blanco', rosato: 'Rosado',
+    fermo: 'Tranquilo', frizzante: 'Espumoso',
+    price_q: 'Rango de precio por botella', price_hint: '',
+    show_wines: 'Mostrar vinos →',
+    results_title: 'Vinos recomendados para usted',
+    results_glass: 'Por copa', results_bottle: 'La botella',
+    no_wines: 'No se encontraron vinos para estos criterios.',
+    skip: 'Continuar sin vino',
+    back_wines: '← Cambiar preferencias',
+  },
+  uk: {
+    format_q: 'Як ви хочете вино?', format_hint: 'Оберіть формат',
+    glass: 'Бокал', bottle: 'Пляшку', choose: 'Обираю сам',
+    glass_q: 'Який обʼєм?', glass_hint: '',
+    q25: '0,25 л', q50: '0,5 л', house: 'Домашнє вино',
+    color_q: 'Яке вино надаєте перевагу?', color_hint: '',
+    rosso: 'Червоне', bianco: 'Біле', rosato: 'Рожеве',
+    fermo: 'Тихе', frizzante: 'Ігристе',
+    price_q: 'Ціновий діапазон за пляшку', price_hint: '',
+    show_wines: 'Показати вина →',
+    results_title: 'Рекомендовані вина для вас',
+    results_glass: 'Бокал', results_bottle: 'Пляшка',
+    no_wines: 'Вина за цими критеріями не знайдені.',
+    skip: 'Продовжити без вина',
+    back_wines: '← Змінити вибір',
+  },
+  zh: {
+    format_q: '您想要什么方式的葡萄酒？', format_hint: '选择格式',
+    glass: '🍷 按杯', bottle: '🍾 整瓶', choose: '🎨 我来选类型',
+    glass_q: '您想要多大的量？', glass_hint: '',
+    q25: '0.25升', q50: '0.5升', house: '招待酒',
+    color_q: '您喜欢哪种葡萄酒？', color_hint: '',
+    rosso: '红酒', bianco: '白酒', rosato: '桃红酒',
+    fermo: '静止', frizzante: '起泡',
+    price_q: '每瓶价格范围', price_hint: '',
+    show_wines: '显示葡萄酒 →',
+    results_title: '为您推荐的葡萄酒',
+    results_glass: '按杯', results_bottle: '整瓶',
+    no_wines: '未找到符合条件的葡萄酒。',
+    skip: '不要葡萄酒继续',
+    back_wines: '← 更改偏好',
+  },
+  ja: {
+    format_q: 'ワインはどうしますか？', format_hint: 'フォーマットを選んでください',
+    glass: '🍷 グラスで', bottle: '🍾 ボトルで', choose: '🎨 自分で選ぶ',
+    glass_q: 'サイズはどうしますか？', glass_hint: '',
+    q25: '0.25リットル', q50: '0.5リットル', house: 'ハウスワイン',
+    color_q: 'どのワインが好きですか？', color_hint: '',
+    rosso: '赤', bianco: '白', rosato: 'ロゼ',
+    fermo: 'スティル', frizzante: 'スパークリング',
+    price_q: 'ボトルの価格帯', price_hint: '',
+    show_wines: 'ワインを表示 →',
+    results_title: 'おすすめのワイン',
+    results_glass: 'グラス', results_bottle: 'ボトル',
+    no_wines: 'この条件に合うワインは見つかりませんでした。',
+    skip: 'ワインなしで続ける',
+    back_wines: '← 設定を変更',
+  },
+};
+
+const WT = WINE_T[LANG] || WINE_T.it;
+
+// Определяем профиль блюд из выбранного заказа
+function getDishProfile() {
+  const order = state.order;
+  if (!order.length) return { dish_type: 'any', menu_type: '', categories: [] };
+
+  let hasMeat = false, hasFish = false, isVegan = true, isVegetarian = true;
+  const menuTypes = new Set();
+  const categories = new Set();
+
+  for (const dish of order) {
+    if (dish.is_meat || dish.is_meat === true) hasMeat = true;
+    if (dish.is_fish || dish.is_fish === true) hasFish = true;
+    if (!dish.is_vegan) isVegan = false;
+    if (dish.is_meat || dish.is_fish) isVegetarian = false;
+    if (dish.menu_type) menuTypes.add(dish.menu_type);
+    if (dish.category) categories.add(dish.category);
+  }
+
+  let dish_type = 'any';
+  if (hasMeat) dish_type = 'meat';
+  else if (hasFish) dish_type = 'fish';
+  else if (isVegan) dish_type = 'vegan';
+  else if (isVegetarian) dish_type = 'vegetarian';
+
+  const menu_type = menuTypes.size === 1 ? [...menuTypes][0] : '';
+  return { dish_type, menu_type, categories: [...categories] };
+}
+
+function showWines() {
+  const offer = document.getElementById('wineOffer');
+  offer.innerHTML = `
+    <div class="wine-title">${WT.format_q}</div>
+    <div class="wine-sub">${WT.format_hint}</div>
+    <div class="wine-opts">
+      <button class="wine-opt" onclick="wineSelectFormat('glass')">${WT.glass}</button>
+      <button class="wine-opt" onclick="wineSelectFormat('house')">${WT.house}</button>
+      <button class="wine-opt" onclick="wineSelectFormat('bottle')">${WT.bottle}</button>
+    </div>
+    <button class="btn-wine-no" style="margin-top:20px" onclick="skipWine()">${WT.skip}</button>`;
+}
+
+function wineSelectFormat(format) {
+  wineState.format = format;
+  wineState.color = '';
+  wineState.style = '';
+  wineState.localOnly = false;
+  const offer = document.getElementById('wineOffer');
+
+  if (format === 'glass') {
+    // Бокал → сразу топ-3 из mescita по профилю блюд
+    fetchWines();
+
+  } else if (format === 'house') {
+    // Домашнее вино → показываем все 4 с выбором объёма
+    showHouseWines(offer);
+
+  } else {
+    // Бутылка → вопрос о местном + слайдер цены
+    offer.innerHTML = `
+      <div class="wine-title">${WT.local_q}</div>
+      <div class="wine-opts" style="margin-top:14px">
+        <button class="wine-opt" id="wopt-local-yes" onclick="wineToggleLocal(true)">${WT.local_yes}</button>
+        <button class="wine-opt" id="wopt-local-no" onclick="wineToggleLocal(false)">${WT.local_no}</button>
+      </div>
+      <div id="bottlePriceSlot"></div>
+      <div style="margin-top:20px">
+        <button class="btn-wine-yes" onclick="fetchWines()">${WT.show_wines}</button>
+        <button class="btn-wine-no" style="margin-left:10px" onclick="showWines()">←</button>
+      </div>`;
+    renderPriceSliderInto('bottlePriceSlot');
+  }
+}
+
+function renderPriceStep(container, onConfirm) {
+  container.innerHTML = `
+    <div class="wine-title">${WT.price_q}</div>
+    <div id="priceSliderWrap"></div>
+    <div style="margin-top:20px">
+      <button class="btn-wine-yes" onclick="(${onConfirm.toString()})()">${WT.show_wines}</button>
+      <button class="btn-wine-no" style="margin-left:10px" onclick="showWines()">←</button>
+    </div>`;
+  renderPriceSliderInto('priceSliderWrap');
+}
+
+function renderPriceSliderInto(slotId) {
+  const slot = document.getElementById(slotId);
+  if (!slot) return;
+  const min = 0, max = 250;
+  wineState.priceMin = 0;
+  wineState.priceMax = 250;
+
+  slot.innerHTML = `
+    <div class="price-slider-wrap">
+      <span class="price-range-label" id="priceLabel">€0 — €250</span>
+      <div class="price-track" id="priceTrack">
+        <div class="price-track-fill" id="priceTrackFill"></div>
+        <input type="range" class="price-slider" id="sliderMin" min="${min}" max="${max}" value="${min}" step="5">
+        <input type="range" class="price-slider" id="sliderMax" min="${min}" max="${max}" value="${max}" step="5">
+      </div>
+      <div class="price-minmax"><span>€${min}</span><span>€${max}</span></div>
+    </div>`;
+
+  const slMin = document.getElementById('sliderMin');
+  const slMax = document.getElementById('sliderMax');
+  const label = document.getElementById('priceLabel');
+  const fill  = document.getElementById('priceTrackFill');
+  const track = document.getElementById('priceTrack');
+
+  function updateSlider() {
+    let lo = parseInt(slMin.value), hi = parseInt(slMax.value);
+    if (lo > hi) { [lo, hi] = [hi, lo]; }
+    wineState.priceMin = lo;
+    wineState.priceMax = hi;
+    label.textContent = `€${lo} — €${hi}`;
+    const pct = (v) => ((v - min) / (max - min)) * 100;
+    fill.style.left  = pct(lo) + '%';
+    fill.style.width = (pct(hi) - pct(lo)) + '%';
+  }
+  slMin.addEventListener('input', updateSlider);
+  slMax.addEventListener('input', updateSlider);
+  updateSlider();
+}
+
+function wineSelectGlass(size) {
+  wineState.glassSize = size;
+  fetchWines();
+}
+
+function wineToggleColor(c) {
+  wineState.color = wineState.color === c ? '' : c;
+  ['rosso','bianco','rosato'].forEach(x => {
+    document.getElementById('wopt-' + x)?.classList.toggle('sel', wineState.color === x);
+  });
+}
+
+function wineToggleStyle(s) {
+  wineState.style = wineState.style === s ? '' : s;
+  ['fermo','frizzante'].forEach(x => {
+    document.getElementById('wopt-' + x)?.classList.toggle('sel', wineState.style === x);
+  });
+}
+
+function wineToggleLocal(val) {
+  wineState.localOnly = val;
+  document.getElementById('wopt-local-yes')?.classList.toggle('sel', val === true);
+  document.getElementById('wopt-local-no')?.classList.toggle('sel', val === false);
+}
+
+// Домашние вина — показываем все 4 с выбором объёма
+function showHouseWines(container) {
+  const houseWines = [
+    { name: 'Rosso Colli di Parma DOC BIO', grape: 'Barbera, Bonarda', color: 'rosso', desc_key: 'Vino rosso locale biologico, corposo e fruttato.' },
+    { name: 'Lambrusco IGT Emilia', grape: 'Lambrusco Maestri', color: 'rosso', desc_key: 'Lambrusco frizzante secco, vivace e fresco.' },
+    { name: 'Genestra Bianco Colli di Parma DOC BIO', grape: 'Malvasia di Candia', color: 'bianco', desc_key: 'Bianco biologico aromatico con note floreali.' },
+    { name: 'Malvasia Frizzante IGT Emilia', grape: 'Malvasia di Candia', color: 'bianco', desc_key: 'Malvasia frizzante leggera e piacevole.' },
+  ];
+  const prices = { bicchiere: 5, q025: 7, q05: 9, bottiglia: 15 };
+
+  let cardsHTML = houseWines.map(w => `
+    <div class="wine-card" style="cursor:default">
+      <div class="wine-card-info">
+        <div class="wine-card-name">${w.name}</div>
+        <div class="wine-card-meta">${w.grape} · Monte delle Vigne, Parma</div>
+        <div class="wine-card-desc">${w.desc_key}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="wine-opt" style="font-size:10px;padding:7px 12px" onclick="addHouseWine('${w.name}',${prices.bicchiere},'${WT.bicchiere}')">${WT.bicchiere} €${prices.bicchiere}</button>
+          <button class="wine-opt" style="font-size:10px;padding:7px 12px" onclick="addHouseWine('${w.name}',${prices.q025},'${WT.q025}')">${WT.q025} €${prices.q025}</button>
+          <button class="wine-opt" style="font-size:10px;padding:7px 12px" onclick="addHouseWine('${w.name}',${prices.q05},'${WT.q05}')">${WT.q05} €${prices.q05}</button>
+          <button class="wine-opt" style="font-size:10px;padding:7px 12px" onclick="addHouseWine('${w.name}',${prices.bottiglia},'${WT.bottiglia}')">${WT.bottiglia} €${prices.bottiglia}</button>
+        </div>
+      </div>
+    </div>`).join('');
+
+  container.innerHTML = `
+    <div class="wine-title">${WT.house_title}</div>
+    <div class="wine-sub">${WT.house_sub}</div>
+    <div class="wine-cards">${cardsHTML}</div>
+    <div style="margin-top:16px">
+      <button class="btn-wine-no" onclick="showWines()">←</button>
+      <button class="btn-wine-no" style="margin-left:10px" onclick="skipWine()">${WT.skip}</button>
+    </div>`;
+}
+
+function addHouseWine(name, price, format) {
+  const id = 'hw_' + name.replace(/\s/g,'_') + '_' + format;
+  const idx = state.order.findIndex(o => o.id === id);
+  if (idx === -1) {
+    state.order.push({ _isWine: true, id, name, name_it: name, price, categoryKey: 'vino' });
+    updateFloatBtn();
+    // Flash feedback
+    event?.target?.classList.add('sel');
+    setTimeout(() => event?.target?.classList.remove('sel'), 600);
+  }
+}
+
+async function fetchWines() {
+  const offer = document.getElementById('wineOffer');
+  offer.innerHTML = `<div class="wine-spinner-wrap"><div class="spinner"></div></div>`;
+
+  const dishNames = state.order
+    .filter(o => !o._isWine)
+    .map(o => o.name_it || o.name);
+
+  const payload = {
+    dishes:     dishNames,
+    format:     wineState.format === 'house' ? 'bottle' : wineState.format,
+    local_only: wineState.localOnly || false,
+    price_min:  wineState.priceMin || 0,
+    price_max:  wineState.priceMax || 9999,
+    lang:       LANG,
+  };
+
+  try {
+    const res = await fetch(`${API_URL}/api/wines/ai`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('API error');
+    const wines = await res.json();
+    renderWineResults(wines, offer);
+  } catch (e) {
+    offer.innerHTML = `
+      <div class="wine-title" style="color:var(--gold)">!</div>
+      <div class="wine-sub">Errore nel caricamento dei vini.<br>Controlla che il server sia avviato.</div>
+      <button class="btn-wine-no" onclick="showWines()">← Riprova</button>`;
+  }
+}
+
+function renderWineResults(wines, container) {
+  const colorLabel = { rosso: 'Rosso', bianco: 'Bianco', rosato: 'Rosato', spumante: 'Spumante' };
+  const styleBadge = { fermo: 'fermo', frizzante: 'frizzante', spumante: 'spumante' };
+
+  if (!wines.length) {
+    container.innerHTML = `
+      <div class="wine-title">${WT.results_title}</div>
+      <div class="wine-sub">${WT.no_wines}</div>
+      <button class="btn-wine-no" onclick="showWines()">← ${WT.back_wines.replace('←','').trim()}</button>`;
+    return;
+  }
+
+  let priceHTML = (w) => {
+    if (wineState.format === 'glass') {
+      if (wineState.glassSize === '0.25' && w.price_quarter) return `€${w.price_quarter.toFixed(2)} <small style="font-size:10px;color:var(--cream-muted)">/ 0.25lt</small>`;
+      if (wineState.glassSize === '0.5'  && w.price_half)    return `€${w.price_half.toFixed(2)} <small style="font-size:10px;color:var(--cream-muted)">/ 0.5lt</small>`;
+      if (w.price_glass) return `€${w.price_glass.toFixed(2)} <small style="font-size:10px;color:var(--cream-muted)">/ bicchiere</small>`;
+    }
+    if (w.price_bottle) return `€${w.price_bottle.toFixed(2)}`;
+    return '';
+  };
+
+  let cardsHTML = wines.map(w => `
+    <div class="wine-card" onclick="toggleWine(${w.id})" data-wine-id="${w.id}">
+      <div class="wine-card-check"></div>
+      <div class="wine-card-info">
+        <div class="wine-card-name">${w.name}</div>
+        <div class="wine-card-meta">${w.producer || ''} ${w.region ? '· ' + w.region : ''}</div>
+        ${w.grape ? `<div class="wine-badge">${w.grape}</div>` : ''}
+        <div class="wine-badge">${colorLabel[w.color] || w.color}</div>
+        <div class="wine-badge">${styleBadge[w.style] || w.style}</div>
+        ${w.ai_reason ? `<div class="wine-card-desc" style="margin-top:8px;font-style:italic;color:var(--gold-light);font-size:11px">✦ ${w.ai_reason}</div>` : ''}
+        ${w.description ? `<div class="wine-card-desc" style="margin-top:4px">${w.description}</div>` : ''}
+      </div>
+      <div class="wine-card-price">${priceHTML(w)}</div>
+    </div>`).join('');
+
+  container.innerHTML = `
+    <div class="wine-title">${WT.results_title}</div>
+    <div class="wine-cards">${cardsHTML}</div>
+    <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <button class="btn-wine-no" onclick="showWines()">← ${WT.back_wines.replace('←','').trim()}</button>
+      <button class="btn-wine-no" onclick="skipWine()">${WT.skip}</button>
+    </div>`;
+
+  // Сохраняем вина для заказа
+  window._allWines = window._allWines || {};
+  wines.forEach(w => { window._allWines[w.id] = w; });
+}
+
+function toggleWine(id) {
+  const wine = window._allWines?.[id];
+  if (!wine) return;
+  const idx = state.order.findIndex(o => o._isWine && o.id === 'w' + id);
+  const card = document.querySelector(`.wine-card[data-wine-id="${id}"]`);
+  if (idx > -1) {
+    state.order.splice(idx, 1);
+    card?.classList.remove('chosen');
+    card?.querySelector('.wine-card-check') && (card.querySelector('.wine-card-check').textContent = '');
+  } else {
+    // Добавляем в заказ как pseudo-dish
+    state.order.push({
+      _isWine: true,
+      id: 'w' + id,
+      name: wine.name,
+      name_it: wine.name,
+      price: wineState.format === 'glass'
+        ? (wineState.glassSize === '0.25' ? wine.price_quarter : wineState.glassSize === '0.5' ? wine.price_half : wine.price_glass) || wine.price_glass || 0
+        : wine.price_bottle || 0,
+      categoryKey: 'vino',
+    });
+    card?.classList.add('chosen');
+    card?.querySelector('.wine-card-check') && (card.querySelector('.wine-card-check').textContent = '✓');
+  }
+  updateFloatBtn();
+}
+
+function skipWine() {
+  document.getElementById('wineOffer')?.remove();
+}
+
+// ═══════════════════════════════════════════════════
+// ЭКРАН ДЛЯ ОФИЦИАНТА
+// ═══════════════════════════════════════════════════
+
+function openWaiter() {
+  if (!state.order.length) return;
+
+  const CAT_IT = { antipasti:'Antipasti', primi:'Primo', secondi:'Secondo', vino:'Vino' };
+
+  let itemsHTML = '';
+  let total = 0;
+
+  for (const dish of state.order) {
+    total += dish.price;
+    itemsHTML += `
+      <div class="waiter-item">
+        <div class="waiter-item-left">
+          <div class="waiter-item-name">${dish.name_it}</div>
+          <div class="waiter-item-cat">${CAT_IT[dish.categoryKey] || dish.categoryKey}</div>
+          ${dish.adapt_note ? `<div class="waiter-item-warn">⚠ ${dish.adapt_note}</div>` : ''}
+        </div>
+        <div class="waiter-item-price">€ ${dish.price.toFixed(2)}</div>
+      </div>`;
+  }
+
+  itemsHTML += `
+    <div class="waiter-total">
+      <span class="waiter-total-label">Totale stimato</span>
+      <span class="waiter-total-price">€ ${total.toFixed(2)}</span>
+    </div>`;
+
+  document.getElementById('waiterItems').innerHTML = itemsHTML;
+  document.getElementById('waiterOverlay').classList.add('show');
+}
+
+function closeWaiter() {
+  document.getElementById('waiterOverlay').classList.remove('show');
+}
+
+function restart() {
+  state = { step: 0, answers: { allergens: [], diet: '', menu_type: '', categories: [] }, order: [] };
+  window._allDishes = {};
+  document.getElementById('waiterOverlay').classList.remove('show');
+  document.getElementById('dishesWrap').style.display = 'none';
+  document.getElementById('loadingWrap').style.display = 'none';
+  document.getElementById('quizWrap').style.display = 'block';
+  document.getElementById('floatOrder').classList.remove('show');
+  renderQuestion();
+}
+
+const NAV_T = {
+  it: {home:'← Home', menu:'Menu', helper:'Aiutami'},
+  en: {home:'← Home', menu:'Menu', helper:'Help me'},
+  ru: {home:'← Главная', menu:'Меню', helper:'Помоги выбрать'},
+  de: {home:'← Startseite', menu:'Speisekarte', helper:'Hilf mir'},
+  fr: {home:'← Accueil', menu:'Menu', helper:'Aidez-moi'},
+  es: {home:'← Inicio', menu:'Menú', helper:'Ayúdame'},
+  uk: {home:'← Головна', menu:'Меню', helper:'Допоможи'},
+  zh: {home:'← 首页', menu:'菜单', helper:'帮我选择'},
+  ja: {home:'← ホーム', menu:'メニュー', helper:'選んで'},
+};
+const NT = NAV_T[LANG] || NAV_T.it;
+const elHome = document.querySelector('a[href="/"]');
+const elMenu = document.querySelector('a[href="/menu"]');
+const elHelper = document.querySelector('a[href="/helper"]');
+if (elHome) elHome.textContent = NT.home;
+if (elMenu) elMenu.textContent = NT.menu;
+if (elHelper) elHelper.textContent = NT.helper;
+
+// Применяем переводы заголовка страницы
+document.getElementById('pageEyebrow').textContent = TQ.eyebrow || 'Il tuo assistente personale';
+document.getElementById('pageTitle').innerHTML = (TQ.title || 'Cosa ti va stasera?').replace('?', '?');
+document.getElementById('pageSub').textContent = TQ.sub || '';
+
+// ═══════════════════════════════════════════════════
+// СТАРТ
+// ═══════════════════════════════════════════════════
+renderQuestion();
+</script>
+</body>
+</html>

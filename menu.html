@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu – Ristorante Gallo d'Oro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#C8A84B;--gold-light:#E2C97E;--dark:#0E0D0B;--dark-2:#1A1814;--dark-3:#252319;--cream:#F5EDD8;--cream-muted:#B8A98A}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--cream);font-family:'Montserrat',sans-serif;font-weight:300;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(14,13,11,0.97);border-bottom:1px solid rgba(200,168,75,0.15)}
+.nav-logo img{height:40px}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{color:var(--cream-muted);text-decoration:none;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;transition:color 0.3s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.menu-hero{padding:130px 60px 60px;border-bottom:1px solid rgba(200,168,75,0.1)}
+.menu-hero-eyebrow{font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.menu-hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--gold);display:block}
+.menu-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,72px);font-weight:300;color:var(--cream);line-height:1}
+.menu-hero h1 em{font-style:italic;color:var(--gold)}
+.menu-concept{display:flex;gap:16px;margin-top:32px;flex-wrap:wrap}
+.concept-badge{padding:10px 24px;border:1px solid rgba(200,168,75,0.3);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream-muted)}
+.concept-badge.gold{background:var(--gold);color:var(--dark);border-color:var(--gold);font-weight:500}
+.tabs-bar{position:sticky;top:61px;z-index:90;background:rgba(14,13,11,0.97);border-bottom:1px solid rgba(200,168,75,0.12);display:flex;overflow-x:auto;padding:0 60px}
+.tabs-bar::-webkit-scrollbar{display:none}
+.tab-btn{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--cream-muted);font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 20px;cursor:pointer;white-space:nowrap;transition:color 0.3s,border-color 0.3s;-webkit-appearance:none}
+.tab-btn:hover{color:var(--cream)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.coperto-bar{background:var(--dark-3);border-top:1px solid rgba(200,168,75,0.1);border-bottom:1px solid rgba(200,168,75,0.1);padding:16px 60px;text-align:center;font-size:11px;color:var(--cream-muted);letter-spacing:0.1em}
+.coperto-bar strong{color:var(--gold)}
+.menu-section{padding:70px 60px;border-bottom:1px solid rgba(200,168,75,0.08)}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,48px);font-weight:300;color:var(--cream);line-height:1;margin-bottom:40px}
+.section-title em{font-style:italic;color:var(--gold)}
+.menu-type-block{margin-bottom:48px}
+.menu-type-label{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.menu-type-label::after{content:'';flex:1;height:1px;background:rgba(200,168,75,0.12)}
+.type-tag{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;padding:6px 16px;border:1px solid}
+.type-tag.tradizionale{color:var(--cream-muted);border-color:rgba(184,169,138,0.3)}
+.type-tag.gourmet{color:var(--gold);border-color:rgba(200,168,75,0.5);background:rgba(200,168,75,0.05)}
+.type-tag.salumi{color:#F0997B;border-color:rgba(240,153,123,0.4)}
+.type-tag.degustazione{color:#9FE1CB;border-color:rgba(159,225,203,0.4)}
+.dish-row{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 0;border-bottom:1px solid rgba(200,168,75,0.06);gap:24px}
+.dish-row:last-child{border-bottom:none}
+.dish-info{flex:1}
+.dish-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--cream);font-style:italic;margin-bottom:4px}
+.dish-desc{font-size:11px;line-height:1.7;color:var(--cream-muted);margin-bottom:6px}
+.dish-adapt{font-size:10px;color:var(--gold-light);background:rgba(226,201,126,0.07);padding:5px 10px;border-left:2px solid var(--gold-light);margin-top:6px}
+.dish-allergens{font-size:10px;color:rgba(184,169,138,0.5);letter-spacing:0.05em;margin-top:4px}
+.dish-allergens span{color:rgba(200,168,75,0.6)}
+.dish-price{font-size:14px;font-weight:400;color:var(--gold);white-space:nowrap;padding-top:2px}
+.dish-gourmet-tag{display:inline-block;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;padding:2px 8px;background:rgba(200,168,75,0.1);color:var(--gold);border:1px solid rgba(200,168,75,0.2);margin-bottom:6px}
+.simple-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.simple-item{background:var(--dark-2);padding:20px 24px;border:1px solid rgba(200,168,75,0.06);transition:border-color 0.3s}
+.simple-item:hover{border-color:rgba(200,168,75,0.2)}
+.simple-item-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;color:var(--cream);margin-bottom:4px}
+.simple-item-desc{font-size:11px;color:var(--cream-muted);line-height:1.6;margin-bottom:6px}
+.simple-item-price{font-size:13px;color:var(--gold)}
+.gold-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0.2}
+.menu-footer{background:#080807;padding:30px 60px;border-top:1px solid rgba(200,168,75,0.1);display:flex;justify-content:space-between;align-items:center}
+.menu-footer a{color:var(--gold);text-decoration:none;font-family:'Cormorant Garamond',serif;font-size:18px}
+.menu-footer span{font-size:10px;letter-spacing:0.3em;color:var(--cream-muted);text-transform:uppercase}
+.loading{text-align:center;padding:80px;color:var(--cream-muted);font-size:13px;font-style:italic}
+.spinner{width:32px;height:32px;border:2px solid rgba(200,168,75,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.menu-section{animation:fadeUp 0.6s both}
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .tabs-bar{padding:0 20px}
+  .menu-hero{padding:100px 20px 40px}
+  .menu-section{padding:48px 20px}
+  .simple-grid{grid-template-columns:1fr 1fr}
+  .menu-footer{padding:20px;flex-direction:column;gap:12px;text-align:center}
+  .coperto-bar{padding:12px 20px}
+}
+@media(max-width:480px){.simple-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="https://www.gallodororistorante.it/wp-content/uploads/2025/02/logo-ristorante-gallo-d-oro-parma.png" alt="Gallo d'Oro">
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/" id="navHome">← Home</a></li>
+    <li><a href="/menu" class="active" id="navMenu">Menu</a></li>
+    <li><a href="/helper" id="navHelper">Aiutami</a></li>
+  </ul>
+</nav>
+
+<div class="menu-hero">
+  <div class="menu-hero-eyebrow" id="heroEyebrow">La nostra cucina</div>
+  <h1><em id="heroTitle">Menu</em> <span id="heroSub">di stagione</span></h1>
+  <div class="menu-concept">
+    <div class="concept-badge gold" id="badgeTrad">Menu Tradizione — permanente</div>
+    <div class="concept-badge" id="badgeGourmet">Menu Gourmet — cambia ogni stagione</div>
+  </div>
+</div>
+
+<div class="tabs-bar" id="tabsBar">
+  <button class="tab-btn active" onclick="scrollToSection('antipasti')" id="tabAntipasti">Antipasti</button>
+  <button class="tab-btn" onclick="scrollToSection('primi')" id="tabPrimi">Primi</button>
+  <button class="tab-btn" onclick="scrollToSection('secondi')" id="tabSecondi">Secondi</button>
+  <button class="tab-btn" onclick="scrollToSection('contorni')" id="tabContorni">Contorni</button>
+  <button class="tab-btn" onclick="scrollToSection('dolci')" id="tabDolci">Dolci & Caffè</button>
+  <button class="tab-btn" onclick="scrollToSection('bevande')" id="tabBevande">Bevande</button>
+</div>
+
+<div class="coperto-bar">
+  <strong id="copertoLabel">Pane e coperto:</strong> <strong style="color:var(--gold)">€ 3,00</strong>
+  &nbsp;·&nbsp; <span id="copertoNote">* alcuni prodotti potrebbero essere surgelati</span>
+</div>
+
+<div id="menuContent">
+  <div class="loading"><div class="spinner"></div>Caricamento menu...</div>
+</div>
+
+<div class="menu-footer">
+  <a href="/" id="footerHome">← Gallo d'Oro</a>
+  <span id="footerTagline">Cucina tipica parmigiana</span>
+  <a href="/helper" id="footerHelper">Aiutami a scegliere →</a>
+</div>
+
+<script>
+const LANG = sessionStorage.getItem('lang') || 'it';
+
+// ── TRADUZIONI UI ──
+const UI = {
+  it:  {home:'← Home', menu:'Menu', helper:'Aiutami', eyebrow:'La nostra cucina', title:'Menu', sub:'di stagione', trad:'Menu Tradizione — permanente', gourmet:'Menu Gourmet — cambia ogni stagione', coperto:'Pane e coperto:', note:'* alcuni prodotti potrebbero essere surgelati in base alla stagionalità', allergen:'Allergeni:', seasonal:'Stagionale', tradTag:'Tradizione', gourmetTag:'Gourmet', salumiTag:'Selezione Salumi', degustazioneTag:'Degustazioni', footerHelper:'Aiutami a scegliere →', footerTagline:'Cucina tipica parmigiana',
+    tabs:{antipasti:'Antipasti',primi:'Primi Piatti',secondi:'Secondi Piatti',contorni:'Contorni',dolci:'Dolci & Caffè',bevande:'Bevande'},
+    sections:{antipasti:'Antipasti',primi:'Primi Piatti',secondi:'Secondi Piatti',contorni:'Contorni',dolci:'Dolci & Caffè',bevande:'Bevande'},
+  },
+  en:  {home:'← Home', menu:'Menu', helper:'Help me choose', eyebrow:'Our cuisine', title:'Menu', sub:'of the season', trad:'Traditional Menu — permanent', gourmet:'Gourmet Menu — changes every season', coperto:'Bread & cover:', note:'* some products may be frozen depending on seasonality', allergen:'Allergens:', seasonal:'Seasonal', tradTag:'Traditional', gourmetTag:'Gourmet', salumiTag:'Cured Meats', degustazioneTag:'Tasting Boards', footerHelper:'Help me choose →', footerTagline:'Traditional Parma cuisine',
+    tabs:{antipasti:'Starters',primi:'First Courses',secondi:'Main Courses',contorni:'Side Dishes',dolci:'Desserts & Coffee',bevande:'Drinks'},
+    sections:{antipasti:'Starters',primi:'First Courses',secondi:'Main Courses',contorni:'Side Dishes',dolci:'Desserts & Coffee',bevande:'Drinks'},
+  },
+  ru:  {home:'← Главная', menu:'Меню', helper:'Помоги выбрать', eyebrow:'Наша кухня', title:'Меню', sub:'сезона', trad:'Меню Традиция — постоянное', gourmet:'Меню Гурме — меняется каждый сезон', coperto:'Хлеб и обслуживание:', note:'* некоторые продукты могут быть заморожены в зависимости от сезонности', allergen:'Аллергены:', seasonal:'Сезонное', tradTag:'Традиция', gourmetTag:'Гурме', salumiTag:'Деликатесы', degustazioneTag:'Дегустации', footerHelper:'Помоги выбрать →', footerTagline:'Традиционная кухня Пармы',
+    tabs:{antipasti:'Закуски',primi:'Первые блюда',secondi:'Вторые блюда',contorni:'Гарниры',dolci:'Десерты & Кофе',bevande:'Напитки'},
+    sections:{antipasti:'Закуски',primi:'Первые блюда',secondi:'Вторые блюда',contorni:'Гарниры',dolci:'Десерты & Кофе',bevande:'Напитки'},
+  },
+  de:  {home:'← Startseite', menu:'Speisekarte', helper:'Hilf mir', eyebrow:'Unsere Küche', title:'Speisekarte', sub:'der Saison', trad:'Traditionelles Menü — dauerhaft', gourmet:'Gourmet-Menü — wechselt jede Saison', coperto:'Brot und Gedeck:', note:'* einige Produkte können je nach Saison tiefgefroren sein', allergen:'Allergene:', seasonal:'Saisonal', tradTag:'Tradition', gourmetTag:'Gourmet', salumiTag:'Wurstwaren', degustazioneTag:'Verkostungen', footerHelper:'Hilf mir wählen →', footerTagline:'Typische Küche aus Parma',
+    tabs:{antipasti:'Vorspeisen',primi:'Erste Gänge',secondi:'Hauptgerichte',contorni:'Beilagen',dolci:'Desserts & Kaffee',bevande:'Getränke'},
+    sections:{antipasti:'Vorspeisen',primi:'Erste Gänge',secondi:'Hauptgerichte',contorni:'Beilagen',dolci:'Desserts & Kaffee',bevande:'Getränke'},
+  },
+  fr:  {home:'← Accueil', menu:'Menu', helper:'Aidez-moi', eyebrow:'Notre cuisine', title:'Menu', sub:'de saison', trad:'Menu Tradition — permanent', gourmet:'Menu Gastronomique — change chaque saison', coperto:'Pain et couvert:', note:'* certains produits peuvent être surgelés selon la saisonnalité', allergen:'Allergènes:', seasonal:'Saisonnier', tradTag:'Tradition', gourmetTag:'Gastronomique', salumiTag:'Charcuteries', degustazioneTag:'Dégustations', footerHelper:'Aidez-moi à choisir →', footerTagline:'Cuisine typique de Parme',
+    tabs:{antipasti:'Entrées',primi:'Premiers plats',secondi:'Plats principaux',contorni:'Accompagnements',dolci:'Desserts & Café',bevande:'Boissons'},
+    sections:{antipasti:'Entrées',primi:'Premiers plats',secondi:'Plats principaux',contorni:'Accompagnements',dolci:'Desserts & Café',bevande:'Boissons'},
+  },
+  es:  {home:'← Inicio', menu:'Menú', helper:'Ayúdame', eyebrow:'Nuestra cocina', title:'Menú', sub:'de temporada', trad:'Menú Tradición — permanente', gourmet:'Menú Gourmet — cambia cada temporada', coperto:'Pan y cubierto:', note:'* algunos productos pueden estar congelados según la temporada', allergen:'Alérgenos:', seasonal:'Estacional', tradTag:'Tradición', gourmetTag:'Gourmet', salumiTag:'Embutidos', degustazioneTag:'Degustaciones', footerHelper:'Ayúdame a elegir →', footerTagline:'Cocina típica parmesana',
+    tabs:{antipasti:'Entrantes',primi:'Primeros',secondi:'Principales',contorni:'Guarniciones',dolci:'Postres & Café',bevande:'Bebidas'},
+    sections:{antipasti:'Entrantes',primi:'Primeros platos',secondi:'Platos principales',contorni:'Guarniciones',dolci:'Postres & Café',bevande:'Bebidas'},
+  },
+  uk:  {home:'← Головна', menu:'Меню', helper:'Допоможи', eyebrow:'Наша кухня', title:'Меню', sub:'сезону', trad:'Меню Традиція — постійне', gourmet:'Меню Гурме — змінюється щосезону', coperto:'Хліб та обслуговування:', note:'* деякі продукти можуть бути заморожені залежно від сезону', allergen:'Алергени:', seasonal:'Сезонне', tradTag:'Традиція', gourmetTag:'Гурме', salumiTag:'Делікатеси', degustazioneTag:'Дегустації', footerHelper:'Допоможи обрати →', footerTagline:'Традиційна кухня Парми',
+    tabs:{antipasti:'Закуски',primi:'Перші страви',secondi:'Другі страви',contorni:'Гарніри',dolci:'Десерти & Кава',bevande:'Напої'},
+    sections:{antipasti:'Закуски',primi:'Перші страви',secondi:'Другі страви',contorni:'Гарніри',dolci:'Десерти & Кава',bevande:'Напої'},
+  },
+  zh:  {home:'← 首页', menu:'菜单', helper:'帮我选择', eyebrow:'我们的美食', title:'菜单', sub:'当季', trad:'传统菜单 — 常设', gourmet:'美食菜单 — 每季更换', coperto:'面包和餐位费:', note:'* 部分产品可能因季节原因为冷冻产品', allergen:'过敏原:', seasonal:'季节限定', tradTag:'传统', gourmetTag:'美食', salumiTag:'腌制肉类', degustazioneTag:'品鉴', footerHelper:'帮我选择 →', footerTagline:'帕尔马传统美食',
+    tabs:{antipasti:'开胃菜',primi:'头道菜',secondi:'主菜',contorni:'配菜',dolci:'甜点 & 咖啡',bevande:'饮料'},
+    sections:{antipasti:'开胃菜',primi:'头道菜',secondi:'主菜',contorni:'配菜',dolci:'甜点 & 咖啡',bevande:'饮料'},
+  },
+  ja:  {home:'← ホーム', menu:'メニュー', helper:'選んで', eyebrow:'私たちの料理', title:'メニュー', sub:'旬の', trad:'トラディショナルメニュー — 常設', gourmet:'グルメメニュー — 毎シーズン変わります', coperto:'パンとカバーチャージ:', note:'* 季節によっては冷凍品の場合があります', allergen:'アレルゲン:', seasonal:'季節限定', tradTag:'トラディショナル', gourmetTag:'グルメ', salumiTag:'サルミ', degustazioneTag:'テイスティング', footerHelper:'選ぶのを手伝って →', footerTagline:'パルマの伝統料理',
+    tabs:{antipasti:'前菜',primi:'プリモ',secondi:'セコンド',contorni:'付け合わせ',dolci:'デザート & コーヒー',bevande:'飲み物'},
+    sections:{antipasti:'前菜',primi:'プリモ',secondi:'セコンド',contorni:'付け合わせ',dolci:'デザート & コーヒー',bevande:'飲み物'},
+  },
+};
+
+const T = UI[LANG] || UI.it;
+
+// Статичные данные для категорий без API (contorni, dolci, bevande)
+const STATIC = {
+  contorni: [
+    {name_it:'Patate al Forno', desc:{it:'Patate arrosto con erbe aromatiche',en:'Roast potatoes with herbs',ru:'Жареный картофель с ароматными травами',de:'Bratkartoffeln mit Kräutern',fr:'Pommes de terre rôties aux herbes',es:'Patatas asadas con hierbas',uk:'Смажена картопля з травами',zh:'香草烤土豆',ja:'ハーブのロースト・ポテト'}, price:6.00},
+    {name_it:'Peperonata', desc:{it:'Peperoni in padella con pomodoro',en:'Peppers with tomato',ru:'Перец с томатом на сковороде',de:'Paprika mit Tomate',fr:'Poivrons à la tomate',es:'Pimientos con tomate',uk:'Перець з томатом',zh:'番茄炒彩椒',ja:'トマトとパプリカの炒め物'}, price:6.00},
+    {name_it:'Insalata Mista', desc:{it:'Verdure fresche di stagione',en:'Fresh seasonal vegetables',ru:'Свежие сезонные овощи',de:'Frisches Saisongemüse',fr:'Légumes frais de saison',es:'Verduras frescas de temporada',uk:'Свіжі сезонні овочі',zh:'新鲜时令蔬菜',ja:'新鮮な旬の野菜'}, price:5.50},
+    {name_it:'Cime di Rapa', desc:{it:'Saltate in padella con aglio e olio',en:'Sautéed with garlic and olive oil',ru:'Обжаренные с чесноком и маслом',de:'Geschwenkt mit Knoblauch und Olivenöl',fr:'Sautées à l\'ail et huile d\'olive',es:'Salteadas con ajo y aceite',uk:'З часником та оливковою олією',zh:'大蒜橄榄油炒',ja:'ニンニクとオリーブオイルでソテー'}, price:5.50},
+    {name_it:'Verdure Croccanti di Stagione', desc:{it:'Verdure di stagione saltate in padella: finocchio, peperone, cavolfiore, sedano e zucchine',en:'Seasonal vegetables sautéed: fennel, pepper, cauliflower, celery and zucchini',ru:'Сезонные овощи на сковороде: фенхель, перец, цветная капуста, сельдерей и цуккини',de:'Saisonales Gemüse: Fenchel, Paprika, Blumenkohl, Sellerie und Zucchini',fr:'Légumes de saison: fenouil, poivron, chou-fleur, céleri et courgettes',es:'Verduras de temporada: hinojo, pimiento, coliflor, apio y calabacín',uk:'Сезонні овочі: фенхель, перець, цвітна капуста, селера та цукіні',zh:'季节蔬菜：茴香、彩椒、花椰菜、芹菜和西葫芦',ja:'旬の野菜：フェンネル、パプリカ、カリフラワー、セロリ、ズッキーニ'}, price:5.50},
+  ],
+  dolci: [
+    {name_it:'Crème Brulée alla Violetta di Parma', desc:{it:'Crème brûlée con crosta di zucchero caramellato, gelato alla vaniglia a parte',en:'Crème brûlée with caramelised sugar crust, vanilla ice cream on the side',ru:'Крем-брюле с хрустящей карамельной корочкой, ванильное мороженое отдельно',de:'Crème brûlée mit Zuckerkruste, Vanilleeis als Beilage',fr:'Crème brûlée avec croûte caramélisée, glace vanille à part',es:'Crème brûlée con costra caramelizada, helado de vainilla aparte',uk:'Крем-брюле з карамельною скоринкою, морозиво окремо',zh:'焦糖布丁配焦糖脆皮，香草冰淇淋另盘',ja:'カラメルシュガーのクレームブリュレ、バニラアイス別添え'}, price:7.00, allergens:['latte','uova']},
+    {name_it:'Sbrisolona con Mousse di Zabaione', desc:{it:'Torta sbrisolona con mandorle e mousse allo zabaione',en:'Sbrisolona almond cake with zabaione mousse',ru:'Твёрдый рассыпчатый торт сбризолона с миндалём и муссом из забальоне',de:'Sbrisolona-Mandelkuchen mit Zabaione-Mousse',fr:'Gâteau sbrisolona aux amandes et mousse au zabaione',es:'Tarta sbrisolona de almendras con mousse de zabaione',uk:'Торт сбризолона з мигдалем та муссом із забальоне',zh:'杏仁碎粒蛋糕配萨巴雍慕斯',ja:'アーモンドのスブリゾローナとザバイオーネムース'}, price:7.00, allergens:['frutta a guscio','latte','solfiti','uova']},
+    {name_it:'Sorbetto al Limone', desc:{it:'Sorbetto artigianale al limone fresco',en:'Artisanal fresh lemon sorbet',ru:'Ручной сорбет из свежего лимона',de:'Handwerkliches Zitronensorbet',fr:'Sorbet artisanal au citron frais',es:'Sorbete artesanal de limón',uk:'Ручний сорбет зі свіжого лимона',zh:'手工新鲜柠檬冰沙',ja:'手作りレモンシャーベット'}, price:5.00, allergens:['latte','frutta a guscio']},
+    {name_it:'Tiramisù', desc:{it:'Classico tiramisù fatto in casa',en:'Classic homemade tiramisù',ru:'Классическое домашнее тирамису',de:'Klassisches hausgemachtes Tiramisu',fr:'Classique tiramisu fait maison',es:'Clásico tiramisú casero',uk:'Класичне домашнє тірамісу',zh:'经典家制提拉米苏',ja:'クラシックな手作りティラミス'}, price:6.00, allergens:['glutine','uova','latte']},
+    {name_it:'Zuppa Inglese Gallo D\'Oro', desc:{it:'Crema pasticcera, crema al cioccolato e biscotto imbevuto di liquore Alchermes',en:'Pastry cream, chocolate cream and sponge soaked in Alchermes liqueur',ru:'Крем пастичера, шоколадный крем и бисквит, пропитанный ликёром Алкермис',de:'Konditorcreme, Schokoladencreme und Alchermes-Biskuit',fr:'Crème pâtissière, crème au chocolat et biscuit imbibé d\'Alchermes',es:'Crema pastelera, crema de chocolate y bizcocho con Alchermes',uk:'Заварний крем, шоколадний крем та бісквіт з лікером Алкермес',zh:'卡仕达奶油、巧克力奶油和浸过阿尔克尔梅斯利口酒的海绵蛋糕',ja:'カスタードクリーム、チョコレートクリーム、アルケルメス浸けスポンジ'}, price:7.00, allergens:['latte','solfiti','glutine','uova']},
+    {name_it:'Tortino di Mele', desc:{it:'Tortino di mele con crema pasticcera e cannella, gelato alla crema a parte',en:'Apple cake with pastry cream and cinnamon, cream ice cream on the side',ru:'Яблочный пирог с кремом пастичера и корицей, мороженое отдельно',de:'Apfelküchlein mit Konditorcreme und Zimt, Sahneis als Beilage',fr:'Gâteau aux pommes avec crème pâtissière et cannelle, glace à part',es:'Pastelito de manzana con crema pastelera y canela, helado aparte',uk:'Яблучний пиріг з заварним кремом та корицею, морозиво окремо',zh:'苹果蛋糕配卡仕达奶油和肉桂，奶油冰淇淋另盘',ja:'カスタードクリームとシナモンのアップルケーキ、アイスクリーム別添え'}, price:7.00, allergens:['uova','glutine','latte','solfiti']},
+  ],
+  caffe: [
+    {name_it:'Caffè Espresso', price:2.00}, {name_it:'Caffè Macchiato', price:2.00},
+    {name_it:'Caffè Decaffeinato', price:2.00}, {name_it:'Cappuccino', price:2.00},
+    {name_it:'Caffè Corretto', price:2.50}, {name_it:'Orzo', price:3.00},
+    {name_it:'The / Infusi', price:2.00},
+  ],
+  bevande: [
+    {name_it:'Acqua Minerale Naturale', desc:{it:'0,75 cl',en:'0.75 cl',ru:'0,75 кл',de:'0,75 cl',fr:'0,75 cl',es:'0,75 cl',uk:'0,75 кл',zh:'0.75升',ja:'0.75cl'}, price:2.50},
+    {name_it:'Acqua Minerale Frizzante', desc:{it:'0,75 cl',en:'0.75 cl',ru:'0,75 кл',de:'0,75 cl',fr:'0,75 cl',es:'0,75 cl',uk:'0,75 кл',zh:'0.75升',ja:'0.75cl'}, price:2.50},
+    {name_it:'Bibite e Succhi di Frutta', desc:{it:'',en:'',ru:'',de:'',fr:'',es:'',uk:'',zh:'',ja:''}, price:3.50},
+    {name_it:'Via Emilia (Pilsner)', desc:{it:'Birrificio del Ducato 0,33 cl',en:'Birrificio del Ducato 0.33 cl',ru:'Birrificio del Ducato 0,33 кл',de:'Birrificio del Ducato 0,33 cl',fr:'Birrificio del Ducato 0,33 cl',es:'Birrificio del Ducato 0,33 cl',uk:'Birrificio del Ducato 0,33 кл',zh:'Birrificio del Ducato 0.33升',ja:'Birrificio del Ducato 0.33cl'}, price:7.00},
+    {name_it:'Free Ride (IPA)', desc:{it:'Birrificio del Ducato 0,33 cl',en:'Birrificio del Ducato 0.33 cl',ru:'Birrificio del Ducato 0,33 кл',de:'Birrificio del Ducato 0,33 cl',fr:'Birrificio del Ducato 0,33 cl',es:'Birrificio del Ducato 0,33 cl',uk:'Birrificio del Ducato 0,33 кл',zh:'Birrificio del Ducato 0.33升',ja:'Birrificio del Ducato 0.33cl'}, price:7.00},
+    {name_it:'Machete (Double IPA)', desc:{it:'Birrificio del Ducato 0,33 cl',en:'Birrificio del Ducato 0.33 cl',ru:'Birrificio del Ducato 0,33 кл',de:'Birrificio del Ducato 0,33 cl',fr:'Birrificio del Ducato 0,33 cl',es:'Birrificio del Ducato 0,33 cl',uk:'Birrificio del Ducato 0,33 кл',zh:'Birrificio del Ducato 0.33升',ja:'Birrificio del Ducato 0.33cl'}, price:7.00},
+    {name_it:'Futura (Bock)', desc:{it:'Birrificio del Ducato 0,33 cl',en:'Birrificio del Ducato 0.33 cl',ru:'Birrificio del Ducato 0,33 кл',de:'Birrificio del Ducato 0,33 cl',fr:'Birrificio del Ducato 0,33 cl',es:'Birrificio del Ducato 0,33 cl',uk:'Birrificio del Ducato 0,33 кл',zh:'Birrificio del Ducato 0.33升',ja:'Birrificio del Ducato 0.33cl'}, price:7.00},
+    {name_it:'Blond Ale', desc:{it:'Birra di Parma 0,50 cl',en:'Birra di Parma 0.50 cl',ru:'Birra di Parma 0,50 кл',de:'Birra di Parma 0,50 cl',fr:'Birra di Parma 0,50 cl',es:'Birra di Parma 0,50 cl',uk:'Birra di Parma 0,50 кл',zh:'Birra di Parma 0.50升',ja:'Birra di Parma 0.50cl'}, price:9.00},
+    {name_it:'Apa', desc:{it:'Birra di Parma 0,50 cl',en:'Birra di Parma 0.50 cl',ru:'Birra di Parma 0,50 кл',de:'Birra di Parma 0,50 cl',fr:'Birra di Parma 0,50 cl',es:'Birra di Parma 0,50 cl',uk:'Birra di Parma 0,50 кл',zh:'Birra di Parma 0.50升',ja:'Birra di Parma 0.50cl'}, price:9.00},
+  ],
+};
+
+// ── APPLY UI TRANSLATIONS ──
+function applyUI() {
+  document.getElementById('navHome').textContent = T.home;
+  document.getElementById('navMenu').textContent = T.menu;
+  document.getElementById('navHelper').textContent = T.helper;
+  document.getElementById('heroEyebrow').textContent = T.eyebrow;
+  document.getElementById('heroTitle').textContent = T.title;
+  document.getElementById('heroSub').textContent = T.sub;
+  document.getElementById('badgeTrad').textContent = T.trad;
+  document.getElementById('badgeGourmet').textContent = T.gourmet;
+  document.getElementById('copertoLabel').textContent = T.coperto;
+  document.getElementById('copertoNote').textContent = T.note;
+  document.getElementById('footerHome').textContent = '← Gallo d\'Oro';
+  document.getElementById('footerHelper').textContent = T.footerHelper;
+  document.getElementById('footerTagline').textContent = T.footerTagline;
+  document.getElementById('tabAntipasti').textContent = T.tabs.antipasti;
+  document.getElementById('tabPrimi').textContent = T.tabs.primi;
+  document.getElementById('tabSecondi').textContent = T.tabs.secondi;
+  document.getElementById('tabContorni').textContent = T.tabs.contorni;
+  document.getElementById('tabDolci').textContent = T.tabs.dolci;
+  document.getElementById('tabBevande').textContent = T.tabs.bevande;
+  document.title = `${T.menu} – Ristorante Gallo d'Oro`;
+}
+
+// ── RENDER ──
+function renderDishRow(dish) {
+  const isGourmet = dish.menu_type === 'gourmet';
+  const allergens = dish.allergens && dish.allergens.length
+    ? `<div class="dish-allergens"><span>${T.allergen}</span> ${dish.allergens.join(', ')}</div>` : '';
+  const adaptNote = dish.adapt_note
+    ? `<div class="dish-adapt">⚠ ${dish.adapt_note}</div>` : '';
+  return `
+    <div class="dish-row">
+      <div class="dish-info">
+        ${isGourmet ? `<div class="dish-gourmet-tag">${T.seasonal}</div>` : ''}
+        <div class="dish-name">${dish.name_it}</div>
+        ${dish.description ? `<div class="dish-desc">${dish.description}</div>` : ''}
+        ${adaptNote}
+        ${allergens}
+      </div>
+      <div class="dish-price">€ ${Number(dish.price).toFixed(2)}</div>
+    </div>`;
+}
+
+function renderTypeBlock(dishes, type, label) {
+  if (!dishes.length) return '';
+  return `
+    <div class="menu-type-block">
+      <div class="menu-type-label"><span class="type-tag ${type}">${label}</span></div>
+      ${dishes.map(renderDishRow).join('')}
+    </div>`;
+}
+
+function renderSimpleGrid(items) {
+  return `<div class="simple-grid">${items.map(item => `
+    <div class="simple-item">
+      <div class="simple-item-name">${item.name_it}</div>
+      ${item.desc ? `<div class="simple-item-desc">${item.desc[LANG] || item.desc.it || ''}</div>` : ''}
+      ${item.allergens && item.allergens.length ? `<div class="dish-allergens" style="font-size:10px;margin-top:4px"><span style="color:rgba(200,168,75,0.6)">${T.allergen}</span> ${item.allergens.join(', ')}</div>` : ''}
+      <div class="simple-item-price">€ ${Number(item.price).toFixed(2)}</div>
+    </div>`).join('')}</div>`;
+}
+
+function renderMenu(allDishes) {
+  const byCategory = {};
+  allDishes.forEach(d => {
+    if (!byCategory[d.category]) byCategory[d.category] = [];
+    byCategory[d.category].push(d);
+  });
+
+  const get = (cat, type) => (byCategory[cat] || []).filter(d => d.menu_type === type);
+
+  // Antipasti — разбиваем на подгруппы
+  const antipastiTrad = get('antipasti','tradizione').filter(d =>
+    !['Tagliere Goloso','Tagliere dei Preziosi','Tagliere Salumi del Contadino','Degustazione di Formaggi Misti'].includes(d.name_it) &&
+    !d.name_it.startsWith('Prosciutto') && !d.name_it.startsWith('Culatello') &&
+    !d.name_it.startsWith('Culatta') && !d.name_it.startsWith('Spallaccio') &&
+    !d.name_it.startsWith('Spalla') && !d.name_it.startsWith('Salame') &&
+    !d.name_it.startsWith('Coppa') && !d.name_it.startsWith('Strolghino') &&
+    !d.name_it.startsWith('Cicciolata')
+  );
+  const degust = get('antipasti','tradizione').filter(d =>
+    ['Tagliere Goloso','Tagliere dei Preziosi','Tagliere Salumi del Contadino','Degustazione di Formaggi Misti'].includes(d.name_it)
+  );
+  const salumi = get('antipasti','tradizione').filter(d =>
+    d.name_it.startsWith('Prosciutto') || d.name_it.startsWith('Culatello') ||
+    d.name_it.startsWith('Culatta') || d.name_it.startsWith('Spallaccio') ||
+    d.name_it.startsWith('Spalla') || d.name_it.startsWith('Salame') ||
+    d.name_it.startsWith('Coppa') || d.name_it.startsWith('Strolghino') ||
+    d.name_it.startsWith('Cicciolata')
+  );
+  const antipastiGourmet = get('antipasti','gourmet');
+  const primiTrad = get('primi','tradizione');
+  const primiGourmet = get('primi','gourmet');
+  const secondiTrad = get('secondi','tradizione');
+  const secondiGourmet = get('secondi','gourmet');
+
+  let html = '';
+
+  // ANTIPASTI
+  html += `<section class="menu-section" id="antipasti">
+    <h2 class="section-title"><em>${T.sections.antipasti}</em></h2>
+    ${renderTypeBlock(antipastiTrad, 'tradizionale', T.tradTag)}
+    ${renderTypeBlock(degust, 'degustazione', T.degustazioneTag)}
+    ${renderTypeBlock(salumi, 'salumi', T.salumiTag)}
+    ${renderTypeBlock(antipastiGourmet, 'gourmet', T.gourmetTag)}
+  </section><div class="gold-divider"></div>`;
+
+  // PRIMI
+  html += `<section class="menu-section" id="primi">
+    <h2 class="section-title"><em>${T.sections.primi}</em></h2>
+    ${renderTypeBlock(primiTrad, 'tradizionale', T.tradTag)}
+    ${renderTypeBlock(primiGourmet, 'gourmet', T.gourmetTag)}
+  </section><div class="gold-divider"></div>`;
+
+  // SECONDI
+  html += `<section class="menu-section" id="secondi">
+    <h2 class="section-title"><em>${T.sections.secondi}</em></h2>
+    ${renderTypeBlock(secondiTrad, 'tradizionale', T.tradTag)}
+    ${renderTypeBlock(secondiGourmet, 'gourmet', T.gourmetTag)}
+  </section><div class="gold-divider"></div>`;
+
+  // CONTORNI
+  html += `<section class="menu-section" id="contorni">
+    <h2 class="section-title"><em>${T.sections.contorni}</em></h2>
+    ${renderSimpleGrid(STATIC.contorni)}
+  </section><div class="gold-divider"></div>`;
+
+  // DOLCI & CAFFE
+  html += `<section class="menu-section" id="dolci">
+    <h2 class="section-title"><em>${T.sections.dolci}</em></h2>
+    <div class="menu-type-block">
+      <div class="menu-type-label"><span class="type-tag tradizionale">${LANG==='ru'?'Десерты':LANG==='en'?'Desserts':LANG==='de'?'Desserts':LANG==='fr'?'Desserts':LANG==='es'?'Postres':LANG==='uk'?'Десерти':LANG==='zh'?'甜点':LANG==='ja'?'デザート':'Dolci'}</span></div>
+      ${STATIC.dolci.map(d => `
+        <div class="dish-row">
+          <div class="dish-info">
+            <div class="dish-name">${d.name_it}</div>
+            ${d.desc ? `<div class="dish-desc">${d.desc[LANG] || d.desc.it}</div>` : ''}
+            ${d.allergens ? `<div class="dish-allergens"><span>${T.allergen}</span> ${d.allergens.join(', ')}</div>` : ''}
+          </div>
+          <div class="dish-price">€ ${d.price.toFixed(2)}</div>
+        </div>`).join('')}
+    </div>
+    <div class="menu-type-block">
+      <div class="menu-type-label"><span class="type-tag tradizionale">${LANG==='ru'?'Кофе':LANG==='en'?'Coffee':LANG==='de'?'Kaffee':LANG==='fr'?'Café':LANG==='es'?'Café':LANG==='uk'?'Кава':LANG==='zh'?'咖啡':LANG==='ja'?'コーヒー':'Caffè'}</span></div>
+      ${renderSimpleGrid(STATIC.caffe)}
+    </div>
+  </section><div class="gold-divider"></div>`;
+
+  // BEVANDE
+  html += `<section class="menu-section" id="bevande">
+    <h2 class="section-title"><em>${T.sections.bevande}</em></h2>
+    ${renderSimpleGrid(STATIC.bevande)}
+  </section>`;
+
+  document.getElementById('menuContent').innerHTML = html;
+  initScrollSpy();
+}
+
+// ── SCROLL SPY ──
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const offset = 61 + 49;
+  window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - offset, behavior:'smooth'});
+}
+
+function initScrollSpy() {
+  const sections = ['antipasti','primi','secondi','contorni','dolci','bevande'];
+  const tabs = document.querySelectorAll('.tab-btn');
+  window.addEventListener('scroll', () => {
+    let current = sections[0];
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= 120) current = id;
+    });
+    tabs.forEach((btn, i) => btn.classList.toggle('active', sections[i] === current));
+  });
+}
+
+// ── INIT ──
+applyUI();
+
+fetch(`/api/dishes?lang=${LANG}`)
+  .then(r => r.json())
+  .then(data => renderMenu(data))
+  .catch(() => {
+    document.getElementById('menuContent').innerHTML = `
+      <div class="loading">⚠ Server non disponibile<br><small>uvicorn main:app --reload</small></div>`;
+  });
+</script>
+</body>
+</html>
