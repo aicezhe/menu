@@ -25,9 +25,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .concept-badge.gold{background:var(--gold);color:var(--dark);border-color:var(--gold);font-weight:500}
 .tabs-bar{position:sticky;top:61px;z-index:90;background:rgba(14,13,11,0.97);border-bottom:1px solid rgba(200,168,75,0.12);display:flex;overflow-x:auto;padding:0 60px}
 .tabs-bar::-webkit-scrollbar{display:none}
-.tab-btn{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--cream-muted);font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;padding:16px 20px;cursor:pointer;white-space:nowrap;transition:color 0.3s,border-color 0.3s;-webkit-appearance:none}
+.tab-btn{background:transparent;border:none;border-bottom:2px solid transparent;color:var(--cream-muted);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;padding:16px 24px;cursor:pointer;white-space:nowrap;transition:all 0.3s;-webkit-appearance:none}
 .tab-btn:hover{color:var(--cream)}
-.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-btn.active{color:var(--dark);background:var(--gold);border-bottom-color:var(--gold);font-weight:600;letter-spacing:0.18em;padding:16px 28px;text-shadow:0 1px 3px rgba(0,0,0,0.4)}
 .coperto-bar{background:var(--dark-3);border-top:1px solid rgba(200,168,75,0.1);border-bottom:1px solid rgba(200,168,75,0.1);padding:16px 60px;text-align:center;font-size:11px;color:var(--cream-muted);letter-spacing:0.1em}
 .coperto-bar strong{color:var(--gold)}
 .menu-section{padding:70px 60px;border-bottom:1px solid rgba(200,168,75,0.08)}
@@ -85,7 +85,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
     <img src="https://www.gallodororistorante.it/wp-content/uploads/2025/02/logo-ristorante-gallo-d-oro-parma.png" alt="Gallo d'Oro">
   </a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="/" id="navHome">← Home</a></li>
     <li><a href="/menu" class="active" id="navMenu">Menu</a></li>
     <li><a href="/helper" id="navHelper">Aiutami</a></li>
   </ul>
@@ -207,7 +206,6 @@ const STATIC = {
 
 // ── APPLY UI TRANSLATIONS ──
 function applyUI() {
-  document.getElementById('navHome').textContent = T.home;
   document.getElementById('navMenu').textContent = T.menu;
   document.getElementById('navHelper').textContent = T.helper;
   document.getElementById('heroEyebrow').textContent = T.eyebrow;
@@ -398,3 +396,4 @@ fetch(`/api/dishes?lang=${LANG}`)
 </script>
 </body>
 </html>
+
