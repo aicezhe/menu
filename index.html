@@ -250,9 +250,9 @@ nav.scrolled {
   text-transform: uppercase; text-decoration: none;
   display: flex; align-items: center; gap: 10px; transition: color 0.3s;
 }
-.btn-ghost::after { content:''; width: 32px; height: 1px; background: currentColor; transition: width 0.3s; }
+.btn-ghost::after { display: none; }
 .btn-ghost:hover { color: var(--gold); }
-.btn-ghost:hover::after { width: 50px; }
+
 
 .hero-scroll {
   position: absolute; bottom: 40px; right: 60px; z-index: 2;
@@ -282,7 +282,7 @@ section { padding: 120px 60px; }
   color: var(--gold); margin-bottom: 20px;
   display: flex; align-items: center; gap: 14px;
 }
-.section-eyebrow::before { content:''; width: 30px; height: 1px; background: var(--gold); display: block; }
+.section-eyebrow::before { display: none; }
 
 .section-title {
   font-family: 'Playfair Display', serif;
@@ -307,12 +307,12 @@ section { padding: 120px 60px; }
 .feature-bg {
   position: absolute; inset: 0;
   background-size: cover; background-position: center;
-  opacity: 0.25; transition: opacity 0.4s;
+  opacity: 0.35; transition: opacity 0.4s;
 }
-.feature:hover .feature-bg { opacity: 0.38; }
+.feature:hover .feature-bg { opacity: 0.5; }
 .feature::after {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(14,13,11,0.5) 0%, rgba(14,13,11,0.1) 50%, rgba(14,13,11,0.6) 100%);
+  background: linear-gradient(to bottom, rgba(14,13,11,0.55) 0%, rgba(14,13,11,0.2) 40%, rgba(14,13,11,0.75) 100%);
 }
 .feature-content {
   position: relative; z-index: 1;
@@ -322,26 +322,36 @@ section { padding: 120px 60px; }
 
 /* Titolo scheda — sottile, centrato */
 .feature h3 {
-  font-family: 'Cormorant SC', serif;
-  font-size: clamp(20px, 2.8vw, 36px);
-  font-weight: 300;
-  font-style: normal;
-  color: var(--cream);
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(36px, 4vw, 58px);
+  font-weight: 400;
+  color: var(--gold-light);
   line-height: 1.2;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   text-align: center;
   align-self: center;
   width: 100%;
+  text-shadow:
+    0 0 20px rgba(200,168,75,0.7),
+    0 0 50px rgba(200,168,75,0.3),
+    0 2px 8px rgba(0,0,0,0.8);
 }
 
 /* Descrizione scheda — piccolo, in basso a destra */
 .feature p {
   font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  font-weight: 300;
-  line-height: 1.9;
-  color: var(--cream-muted);
-  align-self: flex-end; text-align: right; max-width: 85%;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+  text-align: center;
+  width: calc(100% + 72px);
+  margin-left: -36px;
+  margin-right: -36px;
+  margin-bottom: -36px;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.85));
+  padding: 32px 36px 36px;
 }
 
 
@@ -579,7 +589,7 @@ footer p { font-size: 12px; color: var(--cream-muted); line-height: 1.9; }
       <a href="#helper" class="btn-ghost" data-i18n="hero-cta2">Aiutami a scegliere</a>
     </div>
   </div>
-  <div class="hero-scroll"><div class="scroll-line"></div><span data-i18n="scroll">Scorri</span></div>
+  
 </section>
 
 <div class="gold-divider"></div>
@@ -594,21 +604,21 @@ footer p { font-size: 12px; color: var(--cream-muted); line-height: 1.9; }
       <div class="feature-bg" style="background-image:url('https://www.gallodororistorante.it/wp-content/uploads/2025/07/tortelli-di-erbetta-parma-ristorante-gallo-home.webp');background-position:center 15%"></div>
       <div class="feature-content">
         <h3 data-i18n="f1-title">Produzione artigianale</h3>
-        <p data-i18n="f1-text">Quasi tutti i piatti del nostro menu sono realizzati a mano dai nostri chef.</p>
+        <p data-i18n="f1-text">Quasi tutti i piatti sono realizzati a mano dai nostri chef, per un sapore autentico e inimitabile.</p>
       </div>
     </div>
     <div class="feature reveal" style="transition-delay:.15s">
       <div class="feature-bg" style="background-image:url('https://www.gallodororistorante.it/wp-content/uploads/2025/07/Gallo_doro_focus-dettagli_62-scaled.jpg');background-position:center 75%"></div>
       <div class="feature-content">
         <h3 data-i18n="f3-title">Carta dei vini</h3>
-        <p data-i18n="f3-text">Una selezione curata di vini locali e nazionali.</p>
+        <p data-i18n="f3-text">Vini locali e nazionali, selezionati per accompagnare ogni piatto della nostra cucina.</p>
       </div>
     </div>
     <div class="feature reveal" style="transition-delay:.3s">
       <div class="feature-bg" style="background-image:url('https://www.gallodororistorante.it/wp-content/uploads/2025/08/torta-fritta-2.jpg');background-position:center 55%"></div>
       <div class="feature-content">
         <h3 data-i18n="f2-title">Due anime nel menu</h3>
-        <p data-i18n="f2-text">Tradizionale e Gourmet. La tradizione permanente o l'esperimento stagionale del nostro chef.</p>
+        <p data-i18n="f2-text">Tradizionale o Gourmet: la tradizione parmigiana autentica, oppure i capolavori stagionali del nostro chef.</p>
       </div>
     </div>
   </div>
@@ -646,9 +656,9 @@ footer p { font-size: 12px; color: var(--cream-muted); line-height: 1.9; }
 <!-- ASSISTENTE -->
 <section class="helper-section" id="helper">
   <div class="section-eyebrow reveal" style="justify-content:center;display:flex" data-i18n="helper-eyebrow">Il tuo assistente</div>
-  <h2 class="section-title reveal"><span data-i18n="helper-title">Non sai cosa</span><br><em data-i18n="helper-title-em">ordinare?</em></h2>
+  <h2 class="section-title reveal"><span data-i18n="helper-title">Non sai cosa</span><br><em data-i18n="helper-title-em" style="font-family:'Great Vibes',cursive;font-size:1.3em;color:var(--gold-light);text-shadow:0 0 20px rgba(200,168,75,0.5);">ordinare?</em></h2>
   <p class="reveal" data-i18n="helper-sub">Rispondi a poche domande e ti suggeriremo il piatto e il vino perfetti.</p>
-  <a href="/helper" class="btn-primary reveal" data-i18n="helper-cta">Inizia il test →</a>
+  <a href="/helper" class="btn-primary reveal" data-i18n="helper-cta">Inizia il test</a>
 </section>
 
 <!-- FOOTER -->
@@ -674,15 +684,15 @@ footer p { font-size: 12px; color: var(--cream-muted); line-height: 1.9; }
 
 <script>
 const T = {
-  it:{'nav-menu':'Menu','nav-helper':'Aiutami','nav-about':'Chi siamo','nav-lang':'🌐 Lingua','nav-home':'Home','hero-eyebrow':'Cucina tipica parmigiana','hero-sub':'Nel cuore di Parma, dove la tradizione incontra il gusto autentico. Ogni piatto racconta una storia di territorio, passione e ingredienti selezionati.','hero-cta1':'Scopri il menu','hero-cta2':'Aiutami a scegliere','scroll':'Scorri','features-eyebrow':'La nostra filosofia','f1-title':'Produzione artigianale','f1-text':'Quasi tutti i piatti del nostro menu sono realizzati a mano dai nostri chef. Questo conferisce ad ogni piatto unicità, una texture speciale e un sapore inimitabile.','f2-title':'Due anime nel menu','f2-text':'Il menu è diviso in Tradizionale e Gourmet. Potete scegliere: assaporare la tradizione parmigiana nella sua forma più autentica, oppure sperimentare il menu Gourmet — capolavori unici del nostro chef, che cambiano ogni stagione.','f3-title':'Carta dei vini','f3-text':'Una selezione curata di vini locali e nazionali, perfetti per accompagnare ogni piatto della nostra cucina.','about-eyebrow':'Chi siamo','about-title':'Chi siamo','about-p1':'Parma è la capitale gastronomica d\'Italia — e il Ristorante Gallo d\'Oro ne è una delle conferme.','about-p2':'Scopri di più sui nostri ristoranti:','about-link':'Scopri la nostra storia','about-stat':'Anni di storia','helper-eyebrow':'Il tuo assistente','helper-title':'Non sai cosa','helper-title-em':'ordinare?','helper-sub':'Rispondi a poche domande e ti suggeriremo il piatto e il vino perfetti per te questa sera.','helper-cta':'Inizia il test →','footer-desc':'Cucina tipica parmigiana nel cuore della città.','footer-pages':'Pagine','footer-tagline':'Cucina tipica parmigiana'},
-  en:{'nav-menu':'Menu','nav-helper':'Help me choose','nav-about':'About us','nav-lang':'🌐 Language','nav-home':'Home','hero-eyebrow':'Traditional cuisine from Parma','hero-sub':'In the heart of Parma, where tradition meets authentic taste. Every dish tells a story of territory, passion and carefully selected ingredients.','hero-cta1':'Explore the menu','hero-cta2':'Help me choose','scroll':'Scroll','features-eyebrow':'Our philosophy','f1-title':'Handmade production','f1-text':'Almost all dishes on our menu are handmade by our chefs. This gives each dish its uniqueness, a special texture and an irreplaceable flavour.','f2-title':'Two souls in the menu','f2-text':'Our menu is divided into Traditional and Gourmet. You can choose: savour the traditions of Parma at their finest, or experiment with the Gourmet menu — unique masterpieces from our head chef that change every season.','f3-title':'Wine list','f3-text':'A curated selection of local and national wines, perfect to accompany every dish from our kitchen.','about-eyebrow':'About us','about-title':'About us','about-p1':'Parma is the gastronomic capital of Italy — and Ristorante Gallo d\'Oro is one of its finest expressions.','about-p2':'Discover more about our restaurants:','about-link':'Discover our story','about-stat':'Years of history','helper-eyebrow':'Your personal assistant','helper-title':'Not sure what','helper-title-em':'to order?','helper-sub':'Answer a few questions and we\'ll suggest the perfect dish and wine for you tonight.','helper-cta':'Start the quiz →','footer-desc':'Authentic Parma cuisine in the heart of the city.','footer-pages':'Pages','footer-tagline':'Traditional Parma cuisine'},
-  es:{'nav-menu':'Menú','nav-helper':'Ayúdame','nav-about':'Quiénes somos','nav-lang':'🌐 Idioma','nav-home':'Inicio','hero-eyebrow':'Cocina típica parmesana','hero-sub':'En el corazón de Parma, donde la tradición se encuentra con el sabor auténtico.','hero-cta1':'Ver el menú','hero-cta2':'Ayúdame a elegir','scroll':'Deslizar','features-eyebrow':'Nuestra filosofía','f1-title':'Producción artesanal','f1-text':'Casi todos los platos de nuestro menú son elaborados a mano por nuestros chefs.','f2-title':'Dos almas en el menú','f2-text':'Nuestro menú está dividido en Tradicional y Gourmet.','f3-title':'Carta de vinos','f3-text':'Una selección cuidada de vinos locales y nacionales.','about-eyebrow':'Quiénes somos','about-title':'Quiénes somos','about-p1':'Parma es la capital gastronómica de Italia — y el Ristorante Gallo d\'Oro es una de sus mejores expresiones.','about-p2':'Descubre más sobre nuestros restaurantes:','about-link':'Descubre nuestra historia','about-stat':'Años de historia','helper-eyebrow':'Tu asistente','helper-title':'¿No sabes qué','helper-title-em':'pedir?','helper-sub':'Responde unas pocas preguntas y te sugeriremos el plato y el vino perfectos.','helper-cta':'Empezar el test →','footer-desc':'Cocina típica parmesana en el corazón de la ciudad.','footer-pages':'Páginas','footer-tagline':'Cocina típica parmesana'},
-  fr:{'nav-menu':'Menu','nav-helper':'Aidez-moi','nav-about':'Qui sommes-nous','nav-lang':'🌐 Langue','nav-home':'Accueil','hero-eyebrow':'Cuisine typique de Parme','hero-sub':'Au cœur de Parme, là où la tradition rencontre le goût authentique.','hero-cta1':'Découvrir le menu','hero-cta2':'Aidez-moi à choisir','scroll':'Défiler','features-eyebrow':'Notre philosophie','f1-title':'Production artisanale','f1-text':'Presque tous les plats de notre menu sont faits à la main par nos chefs.','f2-title':'Deux âmes dans le menu','f2-text':'Notre menu est divisé en Traditionnel et Gourmet.','f3-title':'Carte des vins','f3-text':'Une sélection soignée de vins locaux et nationaux.','about-eyebrow':'Qui sommes-nous','about-title':'Qui sommes-nous','about-p1':'Parme est la capitale gastronomique de l\'Italie — et le Ristorante Gallo d\'Oro en est l\'une des meilleures expressions.','about-p2':'Découvrez nos restaurants :','about-link':'Découvrez notre histoire','about-stat':'Ans d\'histoire','helper-eyebrow':'Votre assistant','helper-title':'Vous ne savez pas quoi','helper-title-em':'commander?','helper-sub':'Répondez à quelques questions et nous vous suggérerons le plat et le vin parfaits.','helper-cta':'Commencer le test →','footer-desc':'Cuisine typique de Parme au cœur de la ville.','footer-pages':'Pages','footer-tagline':'Cuisine typique de Parme'},
-  de:{'nav-menu':'Speisekarte','nav-helper':'Hilf mir','nav-about':'Über uns','nav-lang':'🌐 Sprache','nav-home':'Startseite','hero-eyebrow':'Typische Küche aus Parma','hero-sub':'Im Herzen von Parma, wo Tradition auf authentischen Geschmack trifft.','hero-cta1':'Speisekarte entdecken','hero-cta2':'Hilf mir wählen','scroll':'Scrollen','features-eyebrow':'Unsere Philosophie','f1-title':'Handgefertigte Produktion','f1-text':'Fast alle Gerichte auf unserer Speisekarte werden von unseren Köchen handgefertigt.','f2-title':'Zwei Seelen auf der Karte','f2-text':'Unsere Karte ist in Traditionell und Gourmet unterteilt.','f3-title':'Weinkarte','f3-text':'Eine sorgfältige Auswahl lokaler und nationaler Weine.','about-eyebrow':'Über uns','about-title':'Über uns','about-p1':'Parma ist die gastronomische Hauptstadt Italiens — und das Ristorante Gallo d\'Oro ist einer ihrer besten Beweise.','about-p2':'Entdecken Sie unsere Restaurants:','about-link':'Unsere Geschichte entdecken','about-stat':'Jahre Geschichte','helper-eyebrow':'Ihr Assistent','helper-title':'Wissen Sie nicht was','helper-title-em':'Sie bestellen sollen?','helper-sub':'Beantworten Sie ein paar Fragen und wir empfehlen Ihnen das perfekte Gericht.','helper-cta':'Test starten →','footer-desc':'Typische Küche aus Parma im Herzen der Stadt.','footer-pages':'Seiten','footer-tagline':'Typische Küche aus Parma'},
-  ru:{'nav-menu':'Меню','nav-helper':'Помоги выбрать','nav-about':'О нас','nav-lang':'🌐 Язык','nav-home':'Главная','hero-eyebrow':'Традиционная кухня Пармы','hero-sub':'В самом сердце Пармы, где традиции встречаются с подлинным вкусом. Каждое блюдо — история территории, страсти и тщательно подобранных ингредиентов.','hero-cta1':'Смотреть меню','hero-cta2':'Помоги мне выбрать','scroll':'Прокрутить','features-eyebrow':'Наша философия','f1-title':'Ручное производство','f1-text':'Почти все блюда нашего меню приготовлены вручную нашими поварами. Это придаёт каждому блюду уникальность, особую текстуру и незаменимый вкус.','f2-title':'Два духа в меню','f2-text':'Наше меню разделено на Традиционное и Гурме. Вы можете выбрать: вкусить традиции Пармы в наилучшем виде или устроить эксперимент с меню Гурме, которое меняется каждый сезон.','f3-title':'Карта вин','f3-text':'Тщательно подобранная коллекция местных и национальных вин.','about-eyebrow':'О нас','about-title':'О нас','about-p1':'Парма — гастрономическая столица Италии, а Ristorante Gallo d\'Oro — одно из подтверждений этого.','about-p2':'Узнайте больше о наших ресторанах:','about-link':'Узнать нашу историю','about-stat':'Лет истории','helper-eyebrow':'Ваш личный помощник','helper-title':'Не знаете, что','helper-title-em':'заказать?','helper-sub':'Ответьте на несколько вопросов, и мы предложим вам идеальное блюдо и вино на этот вечер.','helper-cta':'Начать тест →','footer-desc':'Традиционная кухня Пармы в центре города.','footer-pages':'Страницы','footer-tagline':'Традиционная кухня Пармы'},
-  uk:{'nav-menu':'Меню','nav-helper':'Допоможи','nav-about':'Про нас','nav-lang':'🌐 Мова','nav-home':'Головна','hero-eyebrow':'Традиційна кухня Парми','hero-sub':'У серці Парми, де традиції зустрічаються зі справжнім смаком.','hero-cta1':'Переглянути меню','hero-cta2':'Допоможи обрати','scroll':'Прокрутити','features-eyebrow':'Наша філософія','f1-title':'Ручне виробництво','f1-text':'Майже всі страви нашого меню приготовлені вручну нашими кухарями.','f2-title':'Два духи в меню','f2-text':'Наше меню поділено на Традиційне та Гурме.','f3-title':'Карта вин','f3-text':'Ретельно підібрана колекція місцевих та національних вин.','about-eyebrow':'Про нас','about-title':'Про нас','about-p1':'Парма — гастрономічна столиця Італії, а Ristorante Gallo d\'Oro — одне з підтверджень цього.','about-p2':'Дізнайтеся більше про наші ресторани:','about-link':'Дізнатися нашу історію','about-stat':'Років історії','helper-eyebrow':'Ваш помічник','helper-title':'Не знаєте, що','helper-title-em':'замовити?','helper-sub':'Дайте відповідь на кілька питань, і ми підкажемо ідеальну страву та вино.','helper-cta':'Почати тест →','footer-desc':'Традиційна кухня Парми в центрі міста.','footer-pages':'Сторінки','footer-tagline':'Традиційна кухня Парми'},
-  zh:{'nav-menu':'菜单','nav-helper':'帮我选择','nav-about':'关于我们','nav-lang':'🌐 语言','nav-home':'首页','hero-eyebrow':'帕尔马传统美食','hero-sub':'在帕尔马的心脏地带，传统与正宗口味相遇。','hero-cta1':'查看菜单','hero-cta2':'帮我选择','scroll':'滚动','features-eyebrow':'我们的理念','f1-title':'手工制作','f1-text':'我们菜单上几乎所有菜肴都由厨师手工制作。','f2-title':'菜单的两种风格','f2-text':'菜单分为传统和美食两种。','f3-title':'酒单','f3-text':'精心挑选的本地和全国葡萄酒。','about-eyebrow':'关于我们','about-title':'关于我们','about-p1':'帕尔马是意大利的美食之都，而Ristorante Gallo d\'Oro正是这一点的最佳证明。','about-p2':'了解我们的餐厅：','about-link':'了解我们的故事','about-stat':'年历史','helper-eyebrow':'您的助手','helper-title':'不知道','helper-title-em':'点什么?','helper-sub':'回答几个问题，我们将为您推荐今晚最完美的菜肴和葡萄酒。','helper-cta':'开始测试 →','footer-desc':'帕尔马传统美食，位于城市中心。','footer-pages':'页面','footer-tagline':'帕尔马传统美食'},
-  ja:{'nav-menu':'メニュー','nav-helper':'選ぶのを手伝って','nav-about':'私たちについて','nav-lang':'🌐 言語','nav-home':'ホーム','hero-eyebrow':'パルマの伝統料理','hero-sub':'パルマの中心部で、伝統と本物の味が出会う場所。','hero-cta1':'メニューを見る','hero-cta2':'選ぶのを手伝って','scroll':'スクロール','features-eyebrow':'私たちの哲学','f1-title':'手作り製造','f1-text':'メニューのほぼすべての料理はシェフが手作りしています。','f2-title':'メニューの二つの魂','f2-text':'メニューはトラディショナルとグルメに分かれています。','f3-title':'ワインリスト','f3-text':'料理に合わせた地元および全国のワインを厳選しています。','about-eyebrow':'私たちについて','about-title':'私たちについて','about-p1':'パルマはイタリアの美食の都であり、Ristorante Gallo d\'Oroはその証の一つです。','about-p2':'私たちのレストランをご覧ください：','about-link':'私たちの物語を知る','about-stat':'年の歴史','helper-eyebrow':'あなたのアシスタント','helper-title':'何を注文すれば','helper-title-em':'いいか迷っていますか?','helper-sub':'いくつかの質問に答えると、今夜にぴったりの料理とワインをご提案します。','helper-cta':'テストを始める →','footer-desc':'パルマの伝統料理、街の中心で。','footer-pages':'ページ','footer-tagline':'パルマの伝統料理'},
+  it:{'nav-menu':'Menu','nav-helper':'Aiutami','nav-about':'Chi siamo','nav-lang':'🌐 Lingua','nav-home':'Home','hero-eyebrow':'Cucina tipica parmigiana','hero-sub':'Nel cuore di Parma, dove la tradizione incontra il gusto autentico. Ogni piatto racconta una storia di territorio, passione e ingredienti selezionati.','hero-cta1':'Scopri il menu','hero-cta2':'Aiutami a scegliere','scroll':'Scorri','features-eyebrow':'La nostra filosofia','f1-title':'Produzione artigianale','f1-text':'Quasi tutti i piatti sono realizzati a mano dai nostri chef, per un sapore autentico e inimitabile.','f2-title':'Due anime nel menu','f2-text':'Tradizionale o Gourmet: la tradizione parmigiana autentica, oppure i capolavori stagionali del nostro chef.','f3-title':'Carta dei vini','f3-text':'Vini locali e nazionali, selezionati per accompagnare ogni piatto della nostra cucina.','about-eyebrow':'Chi siamo','about-title':'Chi siamo','about-p1':'Parma è la capitale gastronomica d\'Italia — e il Ristorante Gallo d\'Oro ne è una delle conferme.','about-p2':'Scopri di più sui nostri ristoranti:','about-link':'Scopri la nostra storia','about-stat':'Anni di storia','helper-eyebrow':'Il tuo assistente','helper-title':'Non sai cosa','helper-title-em':'ordinare?','helper-sub':'Rispondi a poche domande e ti suggeriremo il piatto e il vino perfetti per te questa sera.','helper-cta':'Inizia il test','footer-desc':'Cucina tipica parmigiana nel cuore della città.','footer-pages':'Pagine','footer-tagline':'Cucina tipica parmigiana'},
+  en:{'nav-menu':'Menu','nav-helper':'Help me choose','nav-about':'About us','nav-lang':'🌐 Language','nav-home':'Home','hero-eyebrow':'Traditional cuisine from Parma','hero-sub':'In the heart of Parma, where tradition meets authentic taste. Every dish tells a story of territory, passion and carefully selected ingredients.','hero-cta1':'Explore the menu','hero-cta2':'Help me choose','scroll':'Scroll','features-eyebrow':'Our philosophy','f1-title':'Handmade production','f1-text':'Almost all our dishes are handmade by our chefs, giving each one a unique texture and irreplaceable flavour.','f2-title':'Two souls in the menu','f2-text':'Traditional or Gourmet: authentic Parma cuisine, or seasonal masterpieces by our chef that change every season.','f3-title':'Wine list','f3-text':'A curated selection of local and national wines, perfect for every dish on our menu.','about-eyebrow':'About us','about-title':'About us','about-p1':'Parma is the gastronomic capital of Italy — and Ristorante Gallo d\'Oro is one of its finest expressions.','about-p2':'Discover more about our restaurants:','about-link':'Discover our story','about-stat':'Years of history','helper-eyebrow':'Your personal assistant','helper-title':'Not sure what','helper-title-em':'to order?','helper-sub':'Answer a few questions and we\'ll suggest the perfect dish and wine for you tonight.','helper-cta':'Start the quiz','footer-desc':'Authentic Parma cuisine in the heart of the city.','footer-pages':'Pages','footer-tagline':'Traditional Parma cuisine'},
+  es:{'nav-menu':'Menú','nav-helper':'Ayúdame','nav-about':'Quiénes somos','nav-lang':'🌐 Idioma','nav-home':'Inicio','hero-eyebrow':'Cocina típica parmesana','hero-sub':'En el corazón de Parma, donde la tradición se encuentra con el sabor auténtico.','hero-cta1':'Ver el menú','hero-cta2':'Ayúdame a elegir','scroll':'Deslizar','features-eyebrow':'Nuestra filosofía','f1-title':'Producción artesanal','f1-text':'Casi todos los platos son elaborados a mano por nuestros chefs, con sabor auténtico e inigualable.','f2-title':'Dos almas en el menú','f2-text':'Tradicional o Gourmet: cocina parmesana auténtica, u obras maestras estacionales de nuestro chef.','f3-title':'Carta de vinos','f3-text':'Vinos locales y nacionales cuidadosamente seleccionados para acompañar cada plato.','about-eyebrow':'Quiénes somos','about-title':'Quiénes somos','about-p1':'Parma es la capital gastronómica de Italia — y el Ristorante Gallo d\'Oro es una de sus mejores expresiones.','about-p2':'Descubre más sobre nuestros restaurantes:','about-link':'Descubre nuestra historia','about-stat':'Años de historia','helper-eyebrow':'Tu asistente','helper-title':'¿No sabes qué','helper-title-em':'pedir?','helper-sub':'Responde unas pocas preguntas y te sugeriremos el plato y el vino perfectos.','helper-cta':'Empezar el test','footer-desc':'Cocina típica parmesana en el corazón de la ciudad.','footer-pages':'Páginas','footer-tagline':'Cocina típica parmesana'},
+  fr:{'nav-menu':'Menu','nav-helper':'Aidez-moi','nav-about':'Qui sommes-nous','nav-lang':'🌐 Langue','nav-home':'Accueil','hero-eyebrow':'Cuisine typique de Parme','hero-sub':'Au cœur de Parme, là où la tradition rencontre le goût authentique.','hero-cta1':'Découvrir le menu','hero-cta2':'Aidez-moi à choisir','scroll':'Défiler','features-eyebrow':'Notre philosophie','f1-title':'Production artisanale','f1-text':'Presque tous nos plats sont faits à la main par nos chefs, pour une saveur authentique et unique.','f2-title':'Deux âmes dans le menu','f2-text':'Traditionnel ou Gourmet : cuisine parmesane authentique ou chefs-d\'œuvre saisonniers de notre chef.','f3-title':'Carte des vins','f3-text':'Vins locaux et nationaux soigneusement sélectionnés pour accompagner chaque plat.','about-eyebrow':'Qui sommes-nous','about-title':'Qui sommes-nous','about-p1':'Parme est la capitale gastronomique de l\'Italie — et le Ristorante Gallo d\'Oro en est l\'une des meilleures expressions.','about-p2':'Découvrez nos restaurants :','about-link':'Découvrez notre histoire','about-stat':'Ans d\'histoire','helper-eyebrow':'Votre assistant','helper-title':'Vous ne savez pas quoi','helper-title-em':'commander?','helper-sub':'Répondez à quelques questions et nous vous suggérerons le plat et le vin parfaits.','helper-cta':'Commencer le test','footer-desc':'Cuisine typique de Parme au cœur de la ville.','footer-pages':'Pages','footer-tagline':'Cuisine typique de Parme'},
+  de:{'nav-menu':'Speisekarte','nav-helper':'Hilf mir','nav-about':'Über uns','nav-lang':'🌐 Sprache','nav-home':'Startseite','hero-eyebrow':'Typische Küche aus Parma','hero-sub':'Im Herzen von Parma, wo Tradition auf authentischen Geschmack trifft.','hero-cta1':'Speisekarte entdecken','hero-cta2':'Hilf mir wählen','scroll':'Scrollen','features-eyebrow':'Unsere Philosophie','f1-title':'Handgefertigte Produktion','f1-text':'Fast alle Gerichte werden von unseren Köchen handgefertigt — für einzigartigen, authentischen Geschmack.','f2-title':'Zwei Seelen auf der Karte','f2-text':'Traditionell oder Gourmet: authentische Parma-Küche oder saisonale Meisterwerke unseres Chefs.','f3-title':'Weinkarte','f3-text':'Sorgfältig ausgewählte lokale und nationale Weine zu jedem Gericht unserer Küche.','about-eyebrow':'Über uns','about-title':'Über uns','about-p1':'Parma ist die gastronomische Hauptstadt Italiens — und das Ristorante Gallo d\'Oro ist einer ihrer besten Beweise.','about-p2':'Entdecken Sie unsere Restaurants:','about-link':'Unsere Geschichte entdecken','about-stat':'Jahre Geschichte','helper-eyebrow':'Ihr Assistent','helper-title':'Wissen Sie nicht was','helper-title-em':'Sie bestellen sollen?','helper-sub':'Beantworten Sie ein paar Fragen und wir empfehlen Ihnen das perfekte Gericht.','helper-cta':'Test starten','footer-desc':'Typische Küche aus Parma im Herzen der Stadt.','footer-pages':'Seiten','footer-tagline':'Typische Küche aus Parma'},
+  ru:{'nav-menu':'Меню','nav-helper':'Помоги выбрать','nav-about':'О нас','nav-lang':'🌐 Язык','nav-home':'Главная','hero-eyebrow':'Традиционная кухня Пармы','hero-sub':'В самом сердце Пармы, где традиции встречаются с подлинным вкусом. Каждое блюдо — история территории, страсти и тщательно подобранных ингредиентов.','hero-cta1':'Смотреть меню','hero-cta2':'Помоги мне выбрать','scroll':'Прокрутить','features-eyebrow':'Наша философия','f1-title':'Ручное производство','f1-text':'Почти все блюда приготовлены вручную нашими поварами — неповторимый вкус в каждом кусочке.','f2-title':'Два духа в меню','f2-text':'Традиционное или Гурме: подлинная кухня Пармы или сезонные шедевры нашего шеф-повара.','f3-title':'Карта вин','f3-text':'Тщательно подобранные местные и национальные вина к каждому блюду нашей кухни.','about-eyebrow':'О нас','about-title':'О нас','about-p1':'Парма — гастрономическая столица Италии, а Ristorante Gallo d\'Oro — одно из подтверждений этого.','about-p2':'Узнайте больше о наших ресторанах:','about-link':'Узнать нашу историю','about-stat':'Лет истории','helper-eyebrow':'Ваш личный помощник','helper-title':'Не знаете, что','helper-title-em':'заказать?','helper-sub':'Ответьте на несколько вопросов, и мы предложим вам идеальное блюдо и вино на этот вечер.','helper-cta':'Начать тест','footer-desc':'Традиционная кухня Пармы в центре города.','footer-pages':'Страницы','footer-tagline':'Традиционная кухня Пармы'},
+  uk:{'nav-menu':'Меню','nav-helper':'Допоможи','nav-about':'Про нас','nav-lang':'🌐 Мова','nav-home':'Головна','hero-eyebrow':'Традиційна кухня Парми','hero-sub':'У серці Парми, де традиції зустрічаються зі справжнім смаком.','hero-cta1':'Переглянути меню','hero-cta2':'Допоможи обрати','scroll':'Прокрутити','features-eyebrow':'Наша філософія','f1-title':'Ручне виробництво','f1-text':'Майже всі страви приготовлені вручну нашими кухарями — справжній смак у кожному шматочку.','f2-title':'Два духи в меню','f2-text':'Традиційне або Гурме: справжня кухня Парми чи сезонні шедеври нашого шеф-кухаря.','f3-title':'Карта вин','f3-text':'Ретельно підібрані місцеві та національні вина до кожної страви нашої кухні.','about-eyebrow':'Про нас','about-title':'Про нас','about-p1':'Парма — гастрономічна столиця Італії, а Ristorante Gallo d\'Oro — одне з підтверджень цього.','about-p2':'Дізнайтеся більше про наші ресторани:','about-link':'Дізнатися нашу історію','about-stat':'Років історії','helper-eyebrow':'Ваш помічник','helper-title':'Не знаєте, що','helper-title-em':'замовити?','helper-sub':'Дайте відповідь на кілька питань, і ми підкажемо ідеальну страву та вино.','helper-cta':'Почати тест','footer-desc':'Традиційна кухня Парми в центрі міста.','footer-pages':'Сторінки','footer-tagline':'Традиційна кухня Парми'},
+  zh:{'nav-menu':'菜单','nav-helper':'帮我选择','nav-about':'关于我们','nav-lang':'🌐 语言','nav-home':'首页','hero-eyebrow':'帕尔马传统美食','hero-sub':'在帕尔马的心脏地带，传统与正宗口味相遇。','hero-cta1':'查看菜单','hero-cta2':'帮我选择','scroll':'滚动','features-eyebrow':'我们的理念','f1-title':'手工制作','f1-text':'几乎所有菜肴均由厨师手工制作，每道菜都有独特风味。','f2-title':'菜单的两种风格','f2-text':'传统或美食两种选择：地道帕尔马料理，或主厨每季更换的精品菜肴。','f3-title':'酒单','f3-text':'精心挑选的本地和全国葡萄酒，完美搭配每道菜肴。','about-eyebrow':'关于我们','about-title':'关于我们','about-p1':'帕尔马是意大利的美食之都，而Ristorante Gallo d\'Oro正是这一点的最佳证明。','about-p2':'了解我们的餐厅：','about-link':'了解我们的故事','about-stat':'年历史','helper-eyebrow':'您的助手','helper-title':'不知道','helper-title-em':'点什么?','helper-sub':'回答几个问题，我们将为您推荐今晚最完美的菜肴和葡萄酒。','helper-cta':'开始测试','footer-desc':'帕尔马传统美食，位于城市中心。','footer-pages':'页面','footer-tagline':'帕尔马传统美食'},
+  ja:{'nav-menu':'メニュー','nav-helper':'選ぶのを手伝って','nav-about':'私たちについて','nav-lang':'🌐 言語','nav-home':'ホーム','hero-eyebrow':'パルマの伝統料理','hero-sub':'パルマの中心部で、伝統と本物の味が出会う場所。','hero-cta1':'メニューを見る','hero-cta2':'選ぶのを手伝って','scroll':'スクロール','features-eyebrow':'私たちの哲学','f1-title':'手作り製造','f1-text':'ほぼすべての料理はシェフが手作りし、独自の風味をお届けします。','f2-title':'メニューの二つの魂','f2-text':'トラディショナルまたはグルメ：本場パルマ料理か、シェフの季節のメニューをどうぞ。','f3-title':'ワインリスト','f3-text':'料理に合わせた地元・全国産ワインを厳選しております。','about-eyebrow':'私たちについて','about-title':'私たちについて','about-p1':'パルマはイタリアの美食の都であり、Ristorante Gallo d\'Oroはその証の一つです。','about-p2':'私たちのレストランをご覧ください：','about-link':'私たちの物語を知る','about-stat':'年の歴史','helper-eyebrow':'あなたのアシスタント','helper-title':'何を注文すれば','helper-title-em':'いいか迷っていますか?','helper-sub':'いくつかの質問に答えると、今夜にぴったりの料理とワインをご提案します。','helper-cta':'テストを始める','footer-desc':'パルマの伝統料理、街の中心で。','footer-pages':'ページ','footer-tagline':'パルマの伝統料理'},
 };
 
 function chooseLang(lang) {
@@ -727,3 +737,4 @@ if (savedLang) {
 </script>
 </body>
 </html>
+
